@@ -182,36 +182,66 @@ public class TelaMenu extends javax.swing.JFrame
         botaoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/usuario.png"))); // NOI18N
         botaoUsuario.setText("Cadastro de Usuário");
         botaoUsuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoUsuarioActionPerformed(evt);
+            }
+        });
 
         botaoFuncionario.setBackground(new java.awt.Color(200, 200, 200));
         botaoFuncionario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botaoFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/juridica.png"))); // NOI18N
         botaoFuncionario.setText("Cadastro de Funcionário");
         botaoFuncionario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoFuncionario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoFuncionarioActionPerformed(evt);
+            }
+        });
 
         botaoCidade.setBackground(new java.awt.Color(200, 200, 200));
         botaoCidade.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botaoCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/cidade.png"))); // NOI18N
         botaoCidade.setText("Cadastro de Cidade");
         botaoCidade.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoCidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoCidadeActionPerformed(evt);
+            }
+        });
 
         botaoEstado.setBackground(new java.awt.Color(200, 200, 200));
         botaoEstado.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botaoEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/cidade.png"))); // NOI18N
         botaoEstado.setText("Cadastro de Estado");
         botaoEstado.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoEstadoActionPerformed(evt);
+            }
+        });
 
         botaoPais.setBackground(new java.awt.Color(200, 200, 200));
         botaoPais.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botaoPais.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/cidade.png"))); // NOI18N
         botaoPais.setText("Cadastro de país");
         botaoPais.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoPais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoPaisActionPerformed(evt);
+            }
+        });
 
         botaoConvenio.setBackground(new java.awt.Color(200, 200, 200));
         botaoConvenio.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botaoConvenio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/product.png"))); // NOI18N
         botaoConvenio.setText("Cadastro de Convênio");
         botaoConvenio.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoConvenio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoConvenioActionPerformed(evt);
+            }
+        });
 
         botaoPaciente.setBackground(new java.awt.Color(200, 200, 200));
         botaoPaciente.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -368,6 +398,35 @@ public class TelaMenu extends javax.swing.JFrame
     private void botaoPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPacienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botaoPacienteActionPerformed
+
+    private void botaoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botaoUsuarioActionPerformed
+
+    private void botaoPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPaisActionPerformed
+        TelaCadastroPais tela = new TelaCadastroPais();
+        tela.setVisible(true);
+    }//GEN-LAST:event_botaoPaisActionPerformed
+
+    private void botaoEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEstadoActionPerformed
+        TelaCadastroEstado tela = new TelaCadastroEstado();
+        tela.setVisible(true);
+    }//GEN-LAST:event_botaoEstadoActionPerformed
+
+    private void botaoCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCidadeActionPerformed
+        TelaCadastroCidade tela = new TelaCadastroCidade();
+        tela.setVisible(true);
+    }//GEN-LAST:event_botaoCidadeActionPerformed
+
+    private void botaoConvenioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoConvenioActionPerformed
+        TelaCadastroConvenio tela = new TelaCadastroConvenio();
+        tela.setVisible(true);
+    }//GEN-LAST:event_botaoConvenioActionPerformed
+
+    private void botaoFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoFuncionarioActionPerformed
+        TelaCadastroFunc tela = new TelaCadastroFunc();
+        tela.setVisible(true);
+    }//GEN-LAST:event_botaoFuncionarioActionPerformed
 
     /**
      * @param args the command line arguments

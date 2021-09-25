@@ -374,6 +374,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoUsuarioActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoFuncionario">
               <Properties>
@@ -393,6 +396,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoFuncionarioActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoCidade">
               <Properties>
@@ -412,6 +418,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoCidadeActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoEstado">
               <Properties>
@@ -431,6 +440,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoEstadoActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoPais">
               <Properties>
@@ -450,6 +462,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoPaisActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoConvenio">
               <Properties>
@@ -469,6 +484,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoConvenioActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="botaoPaciente">
               <Properties>
