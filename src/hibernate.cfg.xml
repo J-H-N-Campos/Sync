@@ -54,6 +54,7 @@ Contributor(s):
     <mapping class="sync.View.TelaCadastroPais"/>
     <mapping class="sync.View.TelaCadastroEstado"/>
     <mapping class="sync.View.TelaCadastroCidade"/>
+    <mapping class="sync.View.TelaLogin"/>
     <!--<mapping class="sync.View."/>-->
     <!--entidade-->
     <mapping class="sync.Entidade.Pais"/>
