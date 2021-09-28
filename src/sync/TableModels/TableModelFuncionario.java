@@ -6,16 +6,14 @@
 package sync.TableModels;
 
 import Utils.NewHibernateUtil;
+import java.util.Date;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import sync.Entidade.Funcionario;
-import sync.Entidade.Pais;
 
 /**
  *
@@ -24,22 +22,21 @@ import sync.Entidade.Pais;
 public class TableModelFuncionario implements TableModel{
     
     @Override
-    public int getRowCount() {
+    public int getRowCount()
+    {
         Session sessao = null;
         List<Funcionario> listaF = null; 
-        try {
+        try{
             sessao = NewHibernateUtil.getSessionFactory().openSession();
-            
-            
+
             Query query = sessao.createQuery("from Funcionario");
             listaF = query.list();
-            
-            
-          
-            
-        } catch (HibernateException hibEx) {
+
+        }catch (HibernateException hibEx)
+        {
             hibEx.printStackTrace();
-        } finally {
+        }finally
+        {
             sessao.close();
         }
         
@@ -47,154 +44,147 @@ public class TableModelFuncionario implements TableModel{
     }
 
     @Override
-    public int getColumnCount() {
-        return 18;
+    public int getColumnCount()
+    {
+        return 11;
     }
 
     @Override
-    public String getColumnName(int columnIndex) {
-        String vet[] = new String[18];
+    public String getColumnName(int columnIndex)
+    {
+        String vet[] = new String[12];
         vet[0] = "Id";
         vet[1] = "Nome";
         vet[2] = "Sexo";
         vet[3] = "Data de Nascimento";
         vet[4] = "CPF";
-        vet[5] = "RG";
-        vet[6] = "Telefone";
-        vet[7] = "Telefone Opc";
-        vet[8] = "email Pessoal";
-        vet[9] = "email Empresa";
-        vet[10] = "Rua";
-        vet[11] = "Número";
-        vet[12] = "Complemento";
-        vet[13] = "Formação";
-        vet[14] = "Tipod e Contrato";
-        vet[15] = "Salario Atual";
-        vet[16] = "Salario Futuro";
-        vet[17] = "Cidade";
+        vet[5] = "Telefone";
+        vet[6] = "email";
+        vet[7] = "Formação";
+        vet[8] = "Tipo de Contrato";
+        vet[9] = "Salario";
+        vet[10] = "Endereço";
+        vet[11] = "Cidade";
+        
         return vet[columnIndex];
     }
 
     @Override
-    public Class<?> getColumnClass(int columnIndex) {
-        Class vet[] = new Class[18];
+    public Class<?> getColumnClass(int columnIndex) 
+    {
+        Class vet[] = new Class[12];
         vet[0] = Integer.class;
         vet[1] = String.class;
         vet[2] = String.class;
-        vet[3] = String.class;
+        vet[3] = Date.class;
         vet[4] = String.class;
         vet[5] = String.class;
         vet[6] = String.class;
         vet[7] = String.class;
         vet[8] = String.class;
-        vet[9] = String.class;
+        vet[9] = Double.class;
         vet[10] = String.class;
-        vet[11] = String.class;
-        vet[12] = String.class;
-        vet[13] = String.class;
-        vet[14] = String.class;
-        vet[15] = Double.class;
-        vet[16] = Double.class;
-        vet[17] = String.class;
+        vet[11] = Integer.class;
+        
         return vet[columnIndex];
     }
 
     @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
+    public boolean isCellEditable(int rowIndex, int columnIndex) 
+    {
         return false;
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
+    public Object getValueAt(int rowIndex, int columnIndex) 
+    {
         Session sessao = null;
         List<Funcionario> listaF = null; 
-        try {
+        try{
             sessao = NewHibernateUtil.getSessionFactory().openSession();
-            
             
             Query query = sessao.createQuery("from Funcionario");
             listaF = query.list();
-            
-            
-          
-            
-        } catch (HibernateException hibEx) {
+
+        }catch (HibernateException hibEx)
+        {
             hibEx.printStackTrace();
-        } finally {
+        }finally
+        {
             sessao.close();
         }
         Object obj = null;
         
-        if(columnIndex==0){
+        if(columnIndex==0)
+        {
             obj = listaF.get(rowIndex).getId();
         }
-        if (columnIndex==1) {
+        if(columnIndex==1) 
+        {
             obj = listaF.get(rowIndex).getNome();
         }
-        if (columnIndex==2) {
+        if(columnIndex==2) 
+        {
             obj = listaF.get(rowIndex).getSexo();
         }
-        if (columnIndex==3) {
+        if(columnIndex==3) 
+        {
             obj = listaF.get(rowIndex).getDt_nascimento();
         }
-        if (columnIndex==4) {
+        if(columnIndex==4) 
+        {
             obj = listaF.get(rowIndex).getCpf();
         }
-        if (columnIndex==5) {
-            obj = listaF.get(rowIndex).getRg();
-        }
-        if (columnIndex==6) {
+        if(columnIndex==5) 
+        {
             obj = listaF.get(rowIndex).getTelefone();
         }
-        if (columnIndex==7) {
-            obj = listaF.get(rowIndex).getTelefone_opc();
+     
+        if(columnIndex==6)
+        {
+            obj = listaF.get(rowIndex).getEmail();
         }
-        if (columnIndex==8) {
-            obj = listaF.get(rowIndex).getEmail_pessoal();
-        }
-        if (columnIndex==9) {
-            obj = listaF.get(rowIndex).getEmail_empresa();
-        }
-        if (columnIndex==10) {
-            obj = listaF.get(rowIndex).getRua();
-        }
-        if (columnIndex==11) {
-            obj = listaF.get(rowIndex).getNumero();
-        }
-        if (columnIndex==12) {
-            obj = listaF.get(rowIndex).getComplemento();
-        }
-        if (columnIndex==13) {
+        
+        if(columnIndex==7)
+        {
             obj = listaF.get(rowIndex).getFormacao();
         }
-        if (columnIndex==14) {
-            obj = listaF.get(rowIndex).getTipo_contrato();
+        
+        if(columnIndex==8)
+        {
+            obj = listaF.get(rowIndex).getTipoContrato();
         }
-        if (columnIndex==15) {
-            obj = listaF.get(rowIndex).getSalario_atual();
+        
+        if(columnIndex==9)
+        {
+            obj = listaF.get(rowIndex).getSalario();
         }
-        if (columnIndex==16) {
-            obj = listaF.get(rowIndex).getSalario_futuro();
+        
+        if(columnIndex==10)
+        {
+            obj = listaF.get(rowIndex).getEndereco();
         }
-        if (columnIndex==17) {
+        
+        if (columnIndex==11)
+        {
             obj = listaF.get(rowIndex).getCidade();
         }
+        
         return obj;
     }
 
     @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+    public void setValueAt(Object o, int i, int i1) {
         
     }
 
     @Override
-    public void addTableModelListener(TableModelListener l) {
-        
+    public void addTableModelListener(TableModelListener tl) {
+
     }
 
     @Override
-    public void removeTableModelListener(TableModelListener l) {
+    public void removeTableModelListener(TableModelListener tl) {
         
     }
-    
 }

@@ -5,7 +5,9 @@
  */
 package sync;
 
+import org.apache.log4j.PropertyConfigurator;
 import sync.Entidade.Funcionario;
+import sync.View.TelaMenu;
 
 /**
  *
@@ -17,7 +19,9 @@ public class Sync {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Funcionario func = new Funcionario();
+        PropertyConfigurator.configure("log4j.properties");
+        TelaMenu tela = new TelaMenu();
+        tela.setVisible(true);
     }
     
 }

@@ -49,7 +49,7 @@ Contributor(s):
     
     <mapping class="sync.Sync"/>
     <!--view-->
-    <mapping class="sync.View.TelaCadastroFunc"/>
+    <mapping class="sync.View.TelaCadastroFuncionario"/>
     <mapping class="sync.View.TelaCadastroConvenio"/>
     <mapping class="sync.View.TelaCadastroPais"/>
     <mapping class="sync.View.TelaCadastroEstado"/>

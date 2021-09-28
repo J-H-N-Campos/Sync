@@ -13,13 +13,13 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import sync.Entidade.Cidade;
 import sync.Entidade.Estado;
-import sync.Entidade.Pais;
 import sync.TableModels.TableModelCidade;
 
 /**
@@ -32,6 +32,12 @@ public class TelaCadastroCidade extends javax.swing.JFrame
     /**
      * Creates new form TelaCidade
      */
+    
+    private final static Logger logger = Logger.getLogger(TelaCadastroCidade.class);
+    
+    
+
+    
     public TelaCadastroCidade()
     {
         initComponents();
@@ -52,6 +58,7 @@ public class TelaCadastroCidade extends javax.swing.JFrame
         catch(HibernateException hibEx)
         {
             hibEx.printStackTrace();
+             
         }finally
         {
             sessao.close();
@@ -509,10 +516,12 @@ public class TelaCadastroCidade extends javax.swing.JFrame
             transacao.commit();
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
             this.atualizarTabela();
+            logger.info("Cadastro da cidade \""+this.campoNome.getText()+"\" efetuado"); //adicionar o usuário que fez a alteração depois
         }
         catch(HibernateException hibEx)
         {
             hibEx.printStackTrace();
+             
         }
         finally
         {
@@ -543,12 +552,14 @@ public class TelaCadastroCidade extends javax.swing.JFrame
                 sessao.update(cidade);
                 transacao.commit();
                 JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
+                logger.info("Edicao da cidade \""+this.campoNome.getText()+"\" efetuado"); //adicionar o usuário que fez a alteração depois
                 this.atualizarTabela();
             }
         }
         catch(HibernateException hibEx)
         {
             hibEx.printStackTrace();
+             
         }
     }//GEN-LAST:event_botaoEditarActionPerformed
 
@@ -564,7 +575,7 @@ public class TelaCadastroCidade extends javax.swing.JFrame
             int id;
             
             id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código da cidade a ser EXCLUÍDO:", "Excluir", JOptionPane.PLAIN_MESSAGE));
-            org.hibernate.Query query = sessao.createQuery("FROM cidade WHERE id = " +id);
+            org.hibernate.Query query = sessao.createQuery("FROM Cidade WHERE id = " +id);
             
             resultado = query.list();
             for(Object obj : resultado)
@@ -573,11 +584,13 @@ public class TelaCadastroCidade extends javax.swing.JFrame
                 sessao.delete(cidade);
                 transacao.commit();
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
+                logger.info("Exclusao da cidade \""+cidade.getNome()+"\" efetuado"); //adicionar o usuário que fez a alteração depois
                 this.atualizarTabela();
             }
             }catch(HibernateException hibEx)
             {
                 hibEx.printStackTrace();
+                 
             }
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
@@ -585,43 +598,7 @@ public class TelaCadastroCidade extends javax.swing.JFrame
         this.atualizarTabela();
     }//GEN-LAST:event_botaoPesquisarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroCidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroCidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroCidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroCidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TelaCadastroCidade().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancelar;

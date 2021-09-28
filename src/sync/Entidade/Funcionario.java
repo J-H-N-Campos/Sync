@@ -6,6 +6,7 @@
 package sync.Entidade;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,34 +36,16 @@ public class Funcionario implements Serializable{
     private String sexo;
     
     @Column(name="dt_nascimento")//MARCACAO
-    private String dt_nascimento;
+    private Date dt_nascimento;
     
-    @Column(name="cpf_cnpj")
+    @Column(name="cpf")
     private String cpf;
-    
-    @Column(name="rg")
-    private String rg;
     
     @Column(name="telefone")
     private String telefone;
     
-    @Column(name="telefone_opcional")
-    private String telefone_opc;
-    
-    @Column(name="email_pessoal")
-    private String email_pessoal;
-    
-    @Column(name="email_empresa")
-    private String email_empresa;
-    
-    @Column(name="rua")
-    private String rua;
-    
-    @Column(name="numero")
-    private String numero;
-    
-    @Column(name="complemento")
-    private String complemento;
+    @Column(name="email")
+    private String email;
     
     @Column(name="formacao")
     private String formacao;
@@ -70,162 +53,137 @@ public class Funcionario implements Serializable{
     @Column(name="tipo_contrato")
     private String tipo_contrato;
     
-    @Column(name="salario_atual")
-    private double salario_atual;
+    @Column(name="salario")
+    private double salario;
     
-    @Column(name="salario_futuro")
-    private double salario_futuro;
-    
+    @Column(name="endereco")
+    private String endereco;
+
     @ManyToOne
     @JoinColumn(name="id_cidade")
     private Cidade cidade;
     
-    
-    public Funcionario() {
+    public Funcionario()
+    {
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public String getNome() {
+    public String getNome()
+    {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String nome)
+    {
         this.nome = nome;
     }
 
-    public String getSexo() {
+    public String getSexo()
+    {
         return sexo;
     }
 
-    public void setSexo(String sexo) {
+    public void setSexo(String sexo)
+    {
         this.sexo = sexo;
     }
 
-    public String getDt_nascimento() {
+    public Date getDt_nascimento()
+    {
         return dt_nascimento;
     }
 
-    public void setDt_nascimento(String dt_nascimento) {
+    public void setDt_nascimento(Date dt_nascimento)
+    {
         this.dt_nascimento = dt_nascimento;
     }
 
-    public String getCpf() {
+    public String getCpf()
+    {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
+    public void setCpf(String cpf)
+    {
         this.cpf = cpf;
     }
 
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-
-    public String getTelefone() {
+    public String getTelefone()
+    {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
+    public void setTelefone(String telefone)
+    {
         this.telefone = telefone;
     }
 
-    public String getTelefone_opc() {
-        return telefone_opc;
+    public String getEmail()
+    {
+        return email;
     }
 
-    public void setTelefone_opc(String telefone_opc) {
-        this.telefone_opc = telefone_opc;
+    public void setEmail(String email)
+    {
+        this.email = email;
     }
 
-    public String getEmail_pessoal() {
-        return email_pessoal;
+    public String getEndereco()
+    {
+        return endereco;
     }
 
-    public void setEmail_pessoal(String email_pessoal) {
-        this.email_pessoal = email_pessoal;
+    public void setEndereco(String endereco)
+    {
+        this.endereco = endereco;
     }
 
-    public String getEmail_empresa() {
-        return email_empresa;
-    }
-
-    public void setEmail_empresa(String email_empresa) {
-        this.email_empresa = email_empresa;
-    }
-
-    public String getRua() {
-        return rua;
-    }
-
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-
-    public String getFormacao() {
+    public String getFormacao()
+    {
         return formacao;
     }
 
-    public void setFormacao(String formacao) {
+    public void setFormacao(String formacao)
+    {
         this.formacao = formacao;
     }
 
-    public String getTipo_contrato() {
+    public String getTipoContrato()
+    {
         return tipo_contrato;
     }
 
-    public void setTipo_contrato(String tipo_contrato) {
+    public void setTipoContrato(String tipo_contrato)
+    {
         this.tipo_contrato = tipo_contrato;
     }
 
-    public double getSalario_atual() {
-        return salario_atual;
+    public double getSalario()
+    {
+        return salario;
     }
 
-    public void setSalario_atual(double salario_atual) {
-        this.salario_atual = salario_atual;
+    public void setSalario(double salario)
+    {
+        this.salario = salario;
     }
 
-    public double getSalario_futuro() {
-        return salario_futuro;
-    }
-
-    public void setSalario_futuro(double salario_futuro) {
-        this.salario_futuro = salario_futuro;
-    }
-
-    public Cidade getCidade() {
+    public Cidade getCidade()
+    {
         return cidade;
     }
 
-    public void setCidade(Cidade cidade) {
+    public void setCidade(Cidade cidade)
+    {
         this.cidade = cidade;
     }
-    
 }

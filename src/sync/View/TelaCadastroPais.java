@@ -17,6 +17,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.jboss.logging.Logger;
 import sync.Entidade.Pais;
 import sync.TableModels.TableModelPais;
 
@@ -28,6 +29,8 @@ import sync.TableModels.TableModelPais;
 public class TelaCadastroPais extends javax.swing.JFrame
 {
 
+    private final static Logger logger = Logger.getLogger(TelaCadastroPais.class);
+    
     public TelaCadastroPais()
     {
         initComponents();
@@ -470,7 +473,7 @@ public class TelaCadastroPais extends javax.swing.JFrame
             Transaction transacao = sessao.beginTransaction();
             int id;
             id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do pais a ser EXCLUÍDO:", "Excluir", JOptionPane.PLAIN_MESSAGE));
-            org.hibernate.Query query = sessao.createQuery("FROM pais WHERE id = " +id);
+            org.hibernate.Query query = sessao.createQuery("FROM Pais WHERE id = " +id);
             resultado = query.list();
             
             for(Object obj : resultado)
@@ -479,6 +482,7 @@ public class TelaCadastroPais extends javax.swing.JFrame
                 sessao.delete(pais);
                 transacao.commit();
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
+                logger.info("Exclusao do pais \""+ pais.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
             }
         }
@@ -499,7 +503,7 @@ public class TelaCadastroPais extends javax.swing.JFrame
             int id;
             
             id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do pais a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
-            org.hibernate.Query query = sessao.createQuery("FROM pais WHERE id = " +id);
+            org.hibernate.Query query = sessao.createQuery("FROM Pais WHERE id = " +id);
             resultado = query.list();
             
             for(Object obj : resultado)
@@ -511,6 +515,7 @@ public class TelaCadastroPais extends javax.swing.JFrame
                 sessao.update(pais);
                 transacao.commit();
                 JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
+                logger.info("Edicao do pais \""+ pais.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
             }
         }
@@ -532,6 +537,7 @@ public class TelaCadastroPais extends javax.swing.JFrame
             sessao.save(pais);
             transacao.commit();
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
+            logger.info("Cadastro do pais \""+ pais.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         }
         catch(HibernateException hibEx)
@@ -555,45 +561,7 @@ public class TelaCadastroPais extends javax.swing.JFrame
         }
     }//GEN-LAST:event_botaoCancelarActionPerformed
 
-    public static void main(String args[])
-    {
-        try
-        {
-            for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        }
-        catch(ClassNotFoundException ex)
-        {
-            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch(InstantiationException ex)
-        {
-            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch(IllegalAccessException ex)
-        {
-            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch(javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                //new TelaCadastroPais().setVisible(true);
-                new TelaCadastroPais().setVisible(true);
-            }
-        });
-    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancelar;
     private javax.swing.JButton botaoEditar;

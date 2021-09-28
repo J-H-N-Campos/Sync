@@ -6,6 +6,7 @@
 package sync.View;
 
 import Utils.NewHibernateUtil;
+
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
@@ -13,6 +14,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -28,9 +30,11 @@ import sync.TableModels.TableModelEstado;
 public class TelaCadastroEstado extends javax.swing.JFrame
 {
 
+    
     /**
      * Creates new form TelaEstado
      */
+    private final static Logger logger = Logger.getLogger(TelaCadastroEstado.class);
     public TelaCadastroEstado()
     {
         initComponents();
@@ -422,11 +426,13 @@ public class TelaCadastroEstado extends javax.swing.JFrame
             sessao.save(estado);
             transacao.commit();
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
+            logger.info("Cadastro do estado \""+estado.getNome()+"\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         }
         catch(HibernateException hibEx)
         {
             hibEx.printStackTrace();
+             
         }
         finally
         {
@@ -458,12 +464,14 @@ public class TelaCadastroEstado extends javax.swing.JFrame
                 sessao.update(estado);
                 transacao.commit();
                 JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
+                logger.info("Edicao do estado \""+estado.getNome()+"\" efetuado"); //adicionar o usuário que fez a alteração depois
                 this.atualizarTabela();
             }
         }
         catch(HibernateException hibEx)
         {
             hibEx.printStackTrace();
+             
         }
     }//GEN-LAST:event_botaoEditarActionPerformed
 
@@ -479,7 +487,7 @@ public class TelaCadastroEstado extends javax.swing.JFrame
             int id;
             
             id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do estado a ser EXCLUÍDO:", "Excluir", JOptionPane.PLAIN_MESSAGE));
-            org.hibernate.Query query = sessao.createQuery("FROM estado WHERE id = " +id);
+            org.hibernate.Query query = sessao.createQuery("FROM Estado WHERE id = " +id);
             
             resultado = query.list();
             for(Object obj : resultado)
@@ -488,11 +496,13 @@ public class TelaCadastroEstado extends javax.swing.JFrame
                 sessao.delete(estado);
                 transacao.commit();
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
+                logger.info("Exclusao do estado \""+estado.getNome()+"\" efetuado"); //adicionar o usuário que fez a alteração depois
                 this.atualizarTabela();
             }
             }catch(HibernateException hibEx)
             {
                 hibEx.printStackTrace();
+                 
             }
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
@@ -616,41 +626,7 @@ public class TelaCadastroEstado extends javax.swing.JFrame
             }   
     });
     }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEstado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEstado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEstado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEstado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TelaCadastroEstado().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancelar;
