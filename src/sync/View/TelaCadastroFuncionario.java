@@ -43,8 +43,6 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
         
         this.limpaCampos();
         
-        this.tabela.setModel(new TableModelFuncionario());
-        
         Session sessao = null;
         List<Cidade> listaC = null;
         try{
@@ -67,6 +65,8 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
         for (int i = 0; i < listaC.size(); i++) {
             this.comboCidade.addItem(listaC.get(i));
         }
+        this.atualizarTabela();
+        
     }
     
     private void atualizarTabela()
@@ -74,174 +74,171 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
         this.tabela.setModel(new TableModel()
         {
             @Override
-            public int getRowCount()
-            {
-                Session sessao = null;
-                List<Funcionario> listaF = null;
-                try
-                {
-                    sessao = NewHibernateUtil.getSessionFactory().openSession();
-                    System.out.println(campoPesquisar.getText());
-                    Query query = sessao.createQuery("FROM Funcionario As f Where f.nome like '%"+campoPesquisar.getText()+"%'");
-                    listaF = query.list();
-                }
-                catch(HibernateException hibEx)
-                {
-                    hibEx.printStackTrace();
-                }
-                finally
-                {
-                    sessao.close();
-                }
-                return listaF.size();
-            }
-            
-            @Override
-            public int getColumnCount()
-            {
-                return 12;
-            }
-            
-            @Override
-            public String getColumnName(int columnIndex)
-            {
-                String vet[] = new String[12];
-                vet[0] = "Id";
-                vet[1] = "Nome";
-                vet[2] = "Sexo";
-                vet[3] = "Data de nascimento";
-                vet[4] = "CPF";
-                vet[5] = "Telefone";
-                vet[6] = "E-mail";
-                vet[7] = "Formação";
-                vet[8] = "Tipo de contrato";
-                vet[9] = "Salário";
-                vet[10] = "Endereço";
-                vet[11] = "Cidade";
-                return vet[columnIndex];
-            }
-            
-            @Override
-            public Class<?> getColumnClass(int columnIndex)
-            {
-                Class vet[] = new Class[12];
-                vet[0] = Integer.class;
-                vet[1] = String.class;
-                vet[2] = String.class;
-                vet[3] = Date.class;
-                vet[4] = String.class;
-                vet[5] = String.class;
-                vet[6] = String.class;
-                vet[8] = String.class;
-                vet[8] = String.class;
-                vet[9] = Double.class;
-                vet[10] = String.class;
-                vet[11] = Integer.class;
-                
-                return vet[columnIndex];
-            }
-            
-            @Override
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
-                return false;
-            }
-            
-            @Override
-            public Object getValueAt(int rowIndex, int columnIndex)
-            {
-                Session sessao = null;
-                List<Funcionario> listaF = null;
-                try
-                {
-                    sessao = NewHibernateUtil.getSessionFactory().openSession();
-                    Query query = sessao.createQuery("from Funcionario as f where f.nome like '%"+campoPesquisar.getText()+"%'");
-                    listaF = query.list();
-                }
-                catch (HibernateException hibEx)
-                {
-                    hibEx.printStackTrace();
-                }
-                finally
-                {
-                    sessao.close();
-                }
-                
-                Object obj = null;
-                
-                if(columnIndex==0)
-                {
-                    obj = listaF.get(rowIndex).getId();
-                }
-                if(columnIndex==1)
-                {
-                    obj = listaF.get(rowIndex).getNome();
-                }
-                
-                if(columnIndex==2) 
-                {
-                    obj = listaF.get(rowIndex).getSexo();
-                }
-                if(columnIndex==3) 
-                {
-                    obj = listaF.get(rowIndex).getDt_nascimento();
-                }
-                if(columnIndex==4) 
-                {
-                    obj = listaF.get(rowIndex).getCpf();
-                }
-                if(columnIndex==5) 
-                {
-                    obj = listaF.get(rowIndex).getTelefone();
-                }
+    public int getRowCount()
+    {
+        Session sessao = null;
+        List<Funcionario> listaF = null; 
+        try{
+            sessao = NewHibernateUtil.getSessionFactory().openSession();
 
-                if(columnIndex==6)
-                {
-                    obj = listaF.get(rowIndex).getEmail();
-                }
+            Query query = sessao.createQuery("from Funcionario as f Where f.nome LIKE '%"+campoPesquisar.getText()+"%'");
+            listaF = query.list();
 
-                if(columnIndex==7)
-                {
-                    obj = listaF.get(rowIndex).getFormacao();
-                }
+        }catch (HibernateException hibEx)
+        {
+            hibEx.printStackTrace();
+        }finally
+        {
+            sessao.close();
+        }
+        
+        return listaF.size();
+    }
 
-                if(columnIndex==8)
-                {
-                    obj = listaF.get(rowIndex).getTipoContrato();
-                }
+    @Override
+    public int getColumnCount()
+    {
+        return 12;
+    }
 
-                if(columnIndex==9)
-                {
-                    obj = listaF.get(rowIndex).getSalario();
-                }
+    @Override
+    public String getColumnName(int columnIndex)
+    {
+        String vet[] = new String[12];
+        vet[0] = "Id";
+        vet[1] = "Nome";
+        vet[2] = "Sexo";
+        vet[3] = "Data de Nascimento";
+        vet[4] = "CPF";
+        vet[5] = "Telefone";
+        vet[6] = "email";
+        vet[7] = "Formação";
+        vet[8] = "Tipo de Contrato";
+        vet[9] = "Salario";
+        vet[10] = "Endereço";
+        vet[11] = "Cidade";
+        
+        return vet[columnIndex];
+    }
 
-                if(columnIndex==10)
-                {
-                    obj = listaF.get(rowIndex).getEndereco();
-                }
+    @Override
+    public Class<?> getColumnClass(int columnIndex) 
+    {
+        Class vet[] = new Class[12];
+        vet[0] = Integer.class;
+        vet[1] = String.class;
+        vet[2] = String.class;
+        vet[3] = Date.class;
+        vet[4] = String.class;
+        vet[5] = String.class;
+        vet[6] = String.class;
+        vet[7] = String.class;
+        vet[8] = String.class;
+        vet[9] = Double.class;
+        vet[10] = String.class;
+        vet[11] = String.class;
+        
+        return vet[columnIndex];
+    }
 
-                if (columnIndex==11)
-                {
-                    obj = listaF.get(rowIndex).getCidade();
-                }
-                
-                return obj;
-            }
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) 
+    {
+        return false;
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) 
+    {
+        Session sessao = null;
+        List<Funcionario> listaF = null; 
+        try{
+            sessao = NewHibernateUtil.getSessionFactory().openSession();
             
-            @Override
-            public void setValueAt(Object aValue, int rowIndex, int columnIndex)
-            {
-            }
-            
-            @Override
-            public void addTableModelListener(TableModelListener l)
-            {
-            }
-            
-            @Override
-            public void removeTableModelListener(TableModelListener l)
-            {
-            }
+            Query query = sessao.createQuery("from Funcionario as f Where f.nome LIKE '%"+campoPesquisar.getText()+"%'");
+            listaF = query.list();
+
+        }catch (HibernateException hibEx)
+        {
+            hibEx.printStackTrace();
+        }finally
+        {
+            sessao.close();
+        }
+        Object obj = null;
+        
+        if(columnIndex==0)
+        {
+            obj = listaF.get(rowIndex).getId();
+        }
+        if(columnIndex==1) 
+        {
+            obj = listaF.get(rowIndex).getNome();
+        }
+        if(columnIndex==2) 
+        {
+            obj = listaF.get(rowIndex).getSexo();
+        }
+        if(columnIndex==3) 
+        {
+            obj = listaF.get(rowIndex).getDt_nascimento();
+        }
+        if(columnIndex==4) 
+        {
+            obj = listaF.get(rowIndex).getCpf();
+        }
+        if(columnIndex==5) 
+        {
+            obj = listaF.get(rowIndex).getTelefone();
+        }
+     
+        if(columnIndex==6)
+        {
+            obj = listaF.get(rowIndex).getEmail();
+        }
+        
+        if(columnIndex==7)
+        {
+            obj = listaF.get(rowIndex).getFormacao();
+        }
+        
+        if(columnIndex==8)
+        {
+            obj = listaF.get(rowIndex).getTipoContrato();
+        }
+        
+        if(columnIndex==9)
+        {
+            obj = listaF.get(rowIndex).getSalario();
+        }
+        
+        if(columnIndex==10)
+        {
+            obj = listaF.get(rowIndex).getEndereco();
+        }
+        
+        if (columnIndex==11)
+        {
+            obj = listaF.get(rowIndex).getCidade().getNome();
+        }
+        
+        return obj;
+    }
+
+    @Override
+    public void setValueAt(Object o, int i, int i1) {
+        
+    }
+
+    @Override
+    public void addTableModelListener(TableModelListener tl) {
+
+    }
+
+    @Override
+    public void removeTableModelListener(TableModelListener tl) {
+        
+    }
         });
     }
     
@@ -302,7 +299,6 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
         campoSalario = new javax.swing.JFormattedTextField();
         campoEmail = new javax.swing.JFormattedTextField();
         campo_data_nascimento = new com.toedter.calendar.JDateChooser();
-        jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         botaoPesquisar = new javax.swing.JButton();
         campoPesquisar = new javax.swing.JTextField();
@@ -424,8 +420,6 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
         campo_data_nascimento.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         campo_data_nascimento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jTextField1.setText("jTextField1");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -475,8 +469,6 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(comboCidade, 0, 134, Short.MAX_VALUE)
                             .addComponent(campoEndereco))
-                        .addGap(135, 135, 135)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 242, Short.MAX_VALUE)
@@ -497,36 +489,31 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(campoFormacao, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(rotuloNome, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(campoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(campoCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(rotulo1)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jLabel7))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(comboCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoFormacao, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(campoSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(rotulo)
-                                .addComponent(jLabel1)
-                                .addComponent(campoFone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel4))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(campoTipoContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel6)
-                                .addComponent(campoEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(rotuloNome, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(campoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(campoCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(rotulo1)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel7))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(comboCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(campoSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rotulo)
+                        .addComponent(jLabel1)
+                        .addComponent(campoFone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(campoTipoContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)
+                        .addComponent(campoEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -867,7 +854,6 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTabbedPane painel;
     private javax.swing.JLabel rotulo;
     private javax.swing.JLabel rotulo1;

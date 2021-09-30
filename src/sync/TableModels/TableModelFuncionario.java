@@ -46,7 +46,7 @@ public class TableModelFuncionario implements TableModel{
     @Override
     public int getColumnCount()
     {
-        return 11;
+        return 12;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class TableModelFuncionario implements TableModel{
         vet[8] = String.class;
         vet[9] = Double.class;
         vet[10] = String.class;
-        vet[11] = Integer.class;
+        vet[11] = String.class;
         
         return vet[columnIndex];
     }
@@ -167,7 +167,7 @@ public class TableModelFuncionario implements TableModel{
         
         if (columnIndex==11)
         {
-            obj = listaF.get(rowIndex).getCidade();
+            obj = listaF.get(rowIndex).getCidade().getNome();
         }
         
         return obj;

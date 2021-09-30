@@ -33,10 +33,7 @@ public class Paciente implements Serializable{
     @Column(name = "dt_nascimento")
     private String dt_nascimento;
     
-    @Column(name = "rg")
-    private String rg;
-    
-    @Column(name = "cpf_cnpj") //talvez alterar
+    @Column(name = "cpf") //talvez alterar
     private String cpf;
     
     @Column(name = "sexo")
@@ -46,32 +43,14 @@ public class Paciente implements Serializable{
     @JoinColumn(name = "id_cidade")
     private Cidade cidade;
     
-    @Column(name = "rua")
-    private String rua;
-    
-    @Column(name = "numero")
-    private Integer numero;
-    
-    @Column(name = "complemento")
-    private String complemento;
+    @Column(name = "endereco")
+    private String endereco;
     
     @Column(name = "telefone")
     private String telefone;
     
-    @Column(name = "telefone_opcional")
-    private String telefone_opcional;
-    
     @Column(name = "email")
     private String email;
-    
-    @Column(name = "email_opcional")
-    private String email_opcional;
-    
-    @Column(name = "cidade_migracao") //?????????
-    private String cidade_migracao;
-    
-    @Column(name = "vagas")//altearar no banco
-    private Integer vagas;
     
     @ManyToOne
     @JoinColumn(name="id_convenio")

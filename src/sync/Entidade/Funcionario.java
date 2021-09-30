@@ -7,12 +7,16 @@ package sync.Entidade;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -62,6 +66,14 @@ public class Funcionario implements Serializable{
     @ManyToOne
     @JoinColumn(name="id_cidade")
     private Cidade cidade;
+    
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+        name = "funcionario_funcao", 
+        joinColumns = { @JoinColumn(name = "id_funcionario") }, 
+        inverseJoinColumns = { @JoinColumn(name = "id_funcao") }
+    )
+    private List<Funcao> funcoes;
     
     public Funcionario()
     {
@@ -186,4 +198,21 @@ public class Funcionario implements Serializable{
     {
         this.cidade = cidade;
     }
+
+    public String getTipo_contrato() {
+        return tipo_contrato;
+    }
+
+    public void setTipo_contrato(String tipo_contrato) {
+        this.tipo_contrato = tipo_contrato;
+    }
+
+    public List<Funcao> getFuncoes() {
+        return funcoes;
+    }
+
+    public void setFuncoes(List<Funcao> funcoes) {
+        this.funcoes = funcoes;
+    }
+    
 }

@@ -49,20 +49,30 @@ Contributor(s):
     
     <mapping class="sync.Sync"/>
     <!--view-->
-    <mapping class="sync.View.TelaCadastroFuncionario"/>
-    <mapping class="sync.View.TelaCadastroConvenio"/>
-    <mapping class="sync.View.TelaCadastroPais"/>
-    <mapping class="sync.View.TelaCadastroEstado"/>
     <mapping class="sync.View.TelaCadastroCidade"/>
+    <mapping class="sync.View.TelaCadastroConvenio"/>
+    <mapping class="sync.View.TelaCadastroEstado"/>
+    <mapping class="sync.View.TelaCadastroFuncionario"/>
+    <mapping class="sync.View.TelaCadastroPais"/>    
     <mapping class="sync.View.TelaLogin"/>
+    <mapping class="sync.View.TelaMenu"/>
     <!--<mapping class="sync.View."/>-->
     <!--entidade-->
-    <mapping class="sync.Entidade.Pais"/>
-    <mapping class="sync.Entidade.Estado"/>
     <mapping class="sync.Entidade.Cidade"/>
-    <mapping class="sync.Entidade.Funcionario"/>
     <mapping class="sync.Entidade.Convenio"/>
+    <mapping class="sync.Entidade.Estado"/>
+    <mapping class="sync.Entidade.Funcao"/>
+    <mapping class="sync.Entidade.Funcionario"/>
+    <mapping class="sync.Entidade.Leito"/>
     <mapping class="sync.Entidade.Paciente"/>
+    <mapping class="sync.Entidade.Pais"/>
+    <mapping class="sync.Entidade.Produto"/>
+    <mapping class="sync.Entidade.RegistroCirurgia"/>
+    <mapping class="sync.Entidade.RegistroExame"/>
+    <mapping class="sync.Entidade.RegistroLotacao"/>
+    <mapping class="sync.Entidade.TipoCirurgia"/>
+    <mapping class="sync.Entidade.TipoExame"/>
+    <mapping class="sync.Entidade.Usuario"/>
     <!--<mapping class="sync.Entidade."/>-->
     <!--table models-->
     <mapping class="sync.TableModels.TableModelPais"/>
