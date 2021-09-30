@@ -5,6 +5,7 @@
  */
 package sync.Entidade;
 
+import Utils.GenericUser;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "usuario")
-public class Usuario
+public class Usuario implements GenericUser
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,19 +57,9 @@ public class Usuario
         this.id = id;
     }
 
-    public String getNome()
-    {
-        return nome;
-    }
-
     public void setNome(String nome)
     {
         this.nome = nome;
-    }
-
-    public String getSenha()
-    {
-        return senha;
     }
 
     public void setSenha(String senha)
@@ -90,5 +81,15 @@ public class Usuario
     public String toString()
     {
         return this.nome;
+    }
+
+    @Override
+    public String getLogin() {
+        return this.nome;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
     }
 }
