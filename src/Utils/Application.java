@@ -59,7 +59,7 @@ public abstract class Application
         
         this.dataBaseName = dataBaseName;
         this.applicationName = applicationName;
-//        this.firstExecution = !existsPropertiesFile();
+        this.firstExecution = !existsPropertiesFile(); /////////AQUI
         this.firstExecution = true;
         
         this.dataBaseManager = null;
@@ -154,8 +154,8 @@ public abstract class Application
     
     public boolean existsPropertiesFile()
     {
-//        return new File("system.ini").exists();
-        return false;
+        return new File("system.ini").exists();
+//        return false;
     }
     
     protected void defineDefaultFirstExecutionProcesses()

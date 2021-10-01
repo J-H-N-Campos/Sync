@@ -47,7 +47,7 @@ public class TelaCadastroPais extends javax.swing.JFrame {
             public int getRowCount() {
                 List listaP = null;
                 try {
-                    listaP = DaoFactory.newPaisDao().readAll();
+                    listaP = DaoFactory.newPaisDao().read("from Pais as p where p.nome like '%" + campoPesquisar.getText() + "%'");
                 } catch (DataBaseException ex) {
                     java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
                 }

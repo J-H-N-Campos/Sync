@@ -673,7 +673,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             funcionario.setFormacao(campoFormacao.getText());
             funcionario.setTipoContrato(campoTipoContrato.getText());
             funcionario.setSalario(Double.parseDouble(this.campoSalario.getText()));
-            funcionario.setNome(campoEndereco.getText());
+            funcionario.setEndereco(campoEndereco.getText());
             funcionario.setCidade((Cidade) this.comboCidade.getSelectedItem());
             
         try {
@@ -692,10 +692,11 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
     private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
 
         int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do funcionário a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
-        Funcionario funcionario = null;
+        
 
         try {
-            funcionario = DaoFactory.newFuncionarioDao().read(id);
+            Funcionario funcionario = DaoFactory.newFuncionarioDao().read(id);
+            
             funcionario.setNome(campoNome.getText());
             funcionario.setSexo(campoSexo.getText());
             funcionario.setCpf(campoCPF.getText());
@@ -705,7 +706,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             funcionario.setFormacao(campoFormacao.getText());
             funcionario.setTipoContrato(campoTipoContrato.getText());
             funcionario.setSalario(Double.parseDouble(this.campoSalario.getText()));
-            funcionario.setNome(campoEndereco.getText());
+            funcionario.setEndereco(campoEndereco.getText());
             funcionario.setCidade((Cidade) this.comboCidade.getSelectedItem());
             
             DaoFactory.newFuncionarioDao().edit(funcionario);

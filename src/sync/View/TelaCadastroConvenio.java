@@ -5,11 +5,14 @@
  */
 package sync.View;
 
+import Utils.DataBaseException;
+import Utils.DuplicateKeyException;
 import Utils.NewHibernateUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.List;
+import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -19,6 +22,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import sync.Entidade.Convenio;
+import sync.Persistence.DaoFactory;
 import sync.TableModels.TableModelConvenio;
 
 /**
@@ -44,23 +48,14 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
             @Override
             public int getRowCount()
             {
-                Session sessao = null;
+                
                 List<Convenio> listaC = null;
-                try
-                {
-                    sessao = NewHibernateUtil.getSessionFactory().openSession();
-                    System.out.println(campoPesquisar.getText());
-                    Query query = sessao.createQuery("FROM Convenio As c Where c.nome like '%"+campoPesquisar.getText()+"%'");
-                    listaC = query.list();
+                try {
+                    listaC = DaoFactory.newConvenioDao().read("FROM Convenio As c Where c.nome like '%"+campoPesquisar.getText()+"%'");
+                } catch (DataBaseException ex) {
+                    java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                catch(HibernateException hibEx)
-                {
-                    hibEx.printStackTrace();
-                }
-                finally
-                {
-                    sessao.close();
-                }
+                    
                 return listaC.size();
             }
             
@@ -99,21 +94,11 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
             @Override
             public Object getValueAt(int rowIndex, int columnIndex)
             {
-                Session sessao = null;
                 List<Convenio> listaC = null;
-                try
-                {
-                    sessao = NewHibernateUtil.getSessionFactory().openSession();
-                    Query query = sessao.createQuery("from Convenio as c where c.nome like '%"+campoPesquisar.getText()+"%'");
-                    listaC = query.list();
-                }
-                catch (HibernateException hibEx)
-                {
-                    hibEx.printStackTrace();
-                }
-                finally
-                {
-                    sessao.close();
+                try {
+                    listaC = DaoFactory.newConvenioDao().read("FROM Convenio As c Where c.nome like '%"+campoPesquisar.getText()+"%'");
+                } catch (DataBaseException ex) {
+                    java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 Object obj = null;
                 
@@ -479,90 +464,51 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
     }//GEN-LAST:event_botaoFecharActionPerformed
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
-        Session sessao = null;
-        try
-        {
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
-            Transaction transacao = sessao.beginTransaction();
+        
             Convenio convenio = new Convenio();
             convenio.setNome(campoNome.getText());
             convenio.setCodigo(campoCodigo.getText());
-            sessao.save(convenio);
-            transacao.commit();
+        try {
+            DaoFactory.newConvenioDao().create(convenio);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
             logger.info("Cadastro do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
+        } catch (DataBaseException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DuplicateKeyException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch(HibernateException hibEx)
-        {
-            hibEx.printStackTrace();
-        }
-        finally
-        {
-            sessao.close();
-        }
+            
+        
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
-        List resultado = null;
-        Session sessao = null;
-
-        try
-        {
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
-            Transaction transacao = sessao.beginTransaction();
-            int id;
-            id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do convênio a ser EXCLUÍDO:", "Excluir", JOptionPane.PLAIN_MESSAGE));
-            org.hibernate.Query query = sessao.createQuery("FROM Convenio WHERE id = " +id);
-            resultado = query.list();
-
-            for(Object obj : resultado)
-            {
-                Convenio convenio = (Convenio) obj;
-                sessao.delete(convenio);
-                transacao.commit();
+        
+            int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do convênio a ser EXCLUÍDO:", "Excluir", JOptionPane.PLAIN_MESSAGE));
+            try{
+            Convenio convenio = DaoFactory.newConvenioDao().read(id);
+            DaoFactory.newConvenioDao().delete(convenio);
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
                 logger.info("Exclusao do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
-            }
+            } catch (DataBaseException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch(HibernateException hibEx)
-        {
-            hibEx.printStackTrace();
-        }
+        
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
     private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
-        List resultado = null;
-        Session sessao = null;
-
-        try
-        {
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
-            Transaction transacao = sessao.beginTransaction();
-            int id;
-
-            id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do convênio a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
-            org.hibernate.Query query = sessao.createQuery("FROM Convenio WHERE id = " +id);
-            resultado = query.list();
-
-            for(Object obj : resultado)
-            {
-                Convenio convenio = (Convenio) obj;
-                convenio.setId(id);
-                convenio.setNome(campoNome.getText());
-                convenio.setCodigo(campoCodigo.getText());
-                sessao.update(convenio);
-                transacao.commit();
+        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do convênio a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
+            try{
+            Convenio convenio = DaoFactory.newConvenioDao().read(id);
+            DaoFactory.newConvenioDao().delete(convenio);
                 JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-                logger.info("Edicao do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+                logger.info("Exclusao do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
-            }
+            } catch (DataBaseException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch(HibernateException hibEx)
-        {
-            hibEx.printStackTrace();
-        }
+    
     }//GEN-LAST:event_botaoEditarActionPerformed
 
     private void botaoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarActionPerformed
