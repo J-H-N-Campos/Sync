@@ -135,6 +135,11 @@ public class TelaMenu extends javax.swing.JFrame
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/log-45.png"))); // NOI18N
         jButton1.setText("Logs do Sistema");
         jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(200, 200, 200));
         jButton2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -424,9 +429,14 @@ public class TelaMenu extends javax.swing.JFrame
     }//GEN-LAST:event_botaoConvenioActionPerformed
 
     private void botaoFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoFuncionarioActionPerformed
-        TelaCadastroFuncionario tela = new TelaCadastroFuncionario();
+        TelaCadastroFuncionarioTESTE tela = new TelaCadastroFuncionarioTESTE();
         tela.setVisible(true);
     }//GEN-LAST:event_botaoFuncionarioActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        TelaLogs tela = new TelaLogs();
+        tela.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     
 

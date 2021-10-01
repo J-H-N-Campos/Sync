@@ -25,6 +25,7 @@ import org.hibernate.Transaction;
 import sync.Entidade.Cidade;
 import sync.Entidade.Funcionario;
 import sync.Persistence.DaoFactory;
+import sync.Sistema_Sync;
 import sync.TableModels.TableModelFuncionario;
 
 /**
@@ -46,17 +47,13 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
 
         this.limpaCampos();
 
-        Session sessao = null;
+        
         List<Cidade> listaC = null;
+        
         try {
-
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
-            Query query = sessao.createQuery("from Cidade");
-            listaC = query.list();
-        } catch (HibernateException hibEx) {
-            hibEx.printStackTrace();
-        } finally {
-            sessao.close();
+            listaC = DaoFactory.newCidadeDao().readAll();
+        } catch (DataBaseException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         this.comboCidade.removeAllItems();
@@ -679,7 +676,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         try {
             DaoFactory.newFuncionarioDao().create(funcionario);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info("Cadastro do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Cadastro do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
@@ -711,7 +708,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             
             DaoFactory.newFuncionarioDao().edit(funcionario);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info("Edicao do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Edicao do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
             
         } catch (DataBaseException ex) {
@@ -729,7 +726,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             if (func != null) {
                 DaoFactory.newFuncionarioDao().delete(func);
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-                logger.info("Exclusao do funcionario \"" + func.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Exclusao do funcionario \"" + func.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
             } else {
                 JOptionPane.showMessageDialog(null, "Registro não encontrado!");

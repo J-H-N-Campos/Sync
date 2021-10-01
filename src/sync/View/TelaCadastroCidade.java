@@ -24,6 +24,7 @@ import org.hibernate.Transaction;
 import sync.Entidade.Cidade;
 import sync.Entidade.Estado;
 import sync.Persistence.DaoFactory;
+import sync.Sistema_Sync;
 import sync.TableModels.TableModelCidade;
 
 /**
@@ -466,7 +467,7 @@ public class TelaCadastroCidade extends javax.swing.JFrame {
             DaoFactory.newCidadeDao().create(cidade);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
             this.atualizarTabela();
-            logger.info("Cadastro da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Cadastro da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             } catch (DataBaseException ex) {
             java.util.logging.Logger.getLogger(TelaCadastroCidade.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DuplicateKeyException ex) {
@@ -486,7 +487,7 @@ public class TelaCadastroCidade extends javax.swing.JFrame {
                 cidade.setEstado((Estado) this.comboEstado.getSelectedItem());
                 DaoFactory.newCidadeDao().edit(cidade);
                 JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-                logger.info("Edicao da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Edicao da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
                 this.atualizarTabela();
         } catch (DataBaseException ex) {
             java.util.logging.Logger.getLogger(TelaCadastroCidade.class.getName()).log(Level.SEVERE, null, ex);
@@ -503,8 +504,8 @@ public class TelaCadastroCidade extends javax.swing.JFrame {
             cidade.setNome(campoNome.getText());
                 cidade.setEstado((Estado) this.comboEstado.getSelectedItem());
                 DaoFactory.newCidadeDao().delete(cidade);
-                JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-                logger.info("Exclusao da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+                JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Exclusao da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
                 this.atualizarTabela();
         } catch (DataBaseException ex) {
             java.util.logging.Logger.getLogger(TelaCadastroCidade.class.getName()).log(Level.SEVERE, null, ex);

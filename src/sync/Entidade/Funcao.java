@@ -30,11 +30,14 @@ public class Funcao implements Serializable{
     @Column(name="especializacao")
     private String especializacao;
     
-    @Column(name="nivel_permicao")
-    private int nivel_permicao;
+    @Column(name="nivel_permissao")
+    private int nivel_permissao;
     
     @ManyToMany(mappedBy="funcoes")
     private List<Funcionario> funcionarios;
+
+    public Funcao() {
+    }
 
     public int getId() {
         return id;
@@ -49,11 +52,11 @@ public class Funcao implements Serializable{
     }
 
     public int getNivel_permicao() {
-        return nivel_permicao;
+        return nivel_permissao;
     }
 
     public void setNivel_permicao(int nivel_permicao) {
-        this.nivel_permicao = nivel_permicao;
+        this.nivel_permissao = nivel_permicao;
     }
 
     public List<Funcionario> getFuncionarios() {
@@ -67,7 +70,7 @@ public class Funcao implements Serializable{
     public Funcao(int id, String especializacao, int nivel_permicao, List<Funcionario> funcionarios) {
         this.id = id;
         this.especializacao = especializacao;
-        this.nivel_permicao = nivel_permicao;
+        this.nivel_permissao = nivel_permicao;
         this.funcionarios = funcionarios;
     }
 

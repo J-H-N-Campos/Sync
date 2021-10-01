@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -60,7 +62,8 @@ public abstract class Application
         this.dataBaseName = dataBaseName;
         this.applicationName = applicationName;
         this.firstExecution = !existsPropertiesFile(); /////////AQUI
-        this.firstExecution = true;
+        
+        
         
         this.dataBaseManager = null;
         
@@ -149,13 +152,16 @@ public abstract class Application
 
     public boolean isFirstExecution()
     {
+        
         return this.firstExecution;
+        
     }
     
     public boolean existsPropertiesFile()
     {
-        return new File("system.ini").exists();
-//        return false;
+        boolean b = Files.exists(Paths.get("system.ini"));
+
+        return b;
     }
     
     protected void defineDefaultFirstExecutionProcesses()
@@ -165,7 +171,7 @@ public abstract class Application
             @Override
             public void run() throws FatalSystemException
             {
-                createPropertiesFileGenerationProcess();
+                createPropertiesFilesGenerationProcess();
             }
         });
     }
@@ -282,7 +288,7 @@ public abstract class Application
         start( Application.START_WITH_DEFAULT_PROCESSES );
     }
     
-    protected void createPropertiesFileGenerationProcess() throws FatalSystemException
+    protected void createPropertiesFilesGenerationProcess() throws FatalSystemException
     {
         PropertiesForm pf = new PropertiesForm();
         pf.setTitle( (applicationName == null ? "Propriedades do sistema" : applicationName )  );
@@ -296,6 +302,7 @@ public abstract class Application
         dataBaseUserName = pf.getUserName();
         dataBasePassword = pf.getPassword();
         dataBaseSystem = pf.getDBMS();
+        dataBaseName = pf.getDBName();
 
         try
         {
