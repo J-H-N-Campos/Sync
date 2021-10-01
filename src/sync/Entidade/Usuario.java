@@ -6,6 +6,7 @@
 package sync.Entidade;
 
 import Utils.GenericUser;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -91,5 +92,19 @@ public class Usuario implements GenericUser
     @Override
     public String getPassword() {
         return this.senha;
+    }
+    
+    @Override
+    public int getNivelAcesso(){
+        List<Funcao> lista = this.funcionario.getFuncoes();
+        int nivel = 0;
+        
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getNivel_permicao()>nivel) {
+                nivel = lista.get(i).getNivel_permicao();
+            }
+        }
+                
+        return nivel;
     }
 }

@@ -5,12 +5,15 @@
  */
 package sync.View;
 
+import Utils.DataBaseException;
+import Utils.DuplicateKeyException;
 import Utils.NewHibernateUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -21,229 +24,186 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import sync.Entidade.Cidade;
 import sync.Entidade.Funcionario;
+import sync.Persistence.DaoFactory;
 import sync.TableModels.TableModelFuncionario;
 
 /**
  *
  * @author joao
  */
-public class TelaCadastroFuncionario extends javax.swing.JFrame
-{
+public class TelaCadastroFuncionario extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaCadastroFuncionario
      */
     private final static Logger logger = Logger.getLogger(TelaCadastroFuncionario.class);
-    public TelaCadastroFuncionario()
-    {
+
+    public TelaCadastroFuncionario() {
         initComponents();
         URL url = this.getClass().getResource("../Assets/juridica.png");
         Image icone = Toolkit.getDefaultToolkit().getImage(url);
         this.setIconImage(icone);
-        
+
         this.limpaCampos();
-        
+
         Session sessao = null;
         List<Cidade> listaC = null;
-        try{
-            
+        try {
+
             sessao = NewHibernateUtil.getSessionFactory().openSession();
             Query query = sessao.createQuery("from Cidade");
             listaC = query.list();
-        }
-        catch(HibernateException hibEx)
-        {
+        } catch (HibernateException hibEx) {
             hibEx.printStackTrace();
-        }finally
-        {
+        } finally {
             sessao.close();
         }
-        
+
         this.comboCidade.removeAllItems();
-        
-        
+
         for (int i = 0; i < listaC.size(); i++) {
             this.comboCidade.addItem(listaC.get(i));
         }
         this.atualizarTabela();
-        
+
     }
-    
-    private void atualizarTabela()
-    {
-        this.tabela.setModel(new TableModel()
-        {
+
+    private void atualizarTabela() {
+        this.tabela.setModel(new TableModel() {
             @Override
-    public int getRowCount()
-    {
-        Session sessao = null;
-        List<Funcionario> listaF = null; 
-        try{
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
+            public int getRowCount() {
+                List<Funcionario> lista = null;
+                try {
+                    lista = DaoFactory.newFuncionarioDao().read("from Funcionario as f Where f.nome LIKE '%" + campoPesquisar.getText() + "%'");
+                } catch (DataBaseException ex) {
+                    java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return lista.size();
+            }
 
-            Query query = sessao.createQuery("from Funcionario as f Where f.nome LIKE '%"+campoPesquisar.getText()+"%'");
-            listaF = query.list();
+            @Override
+            public int getColumnCount() {
+                return 12;
+            }
 
-        }catch (HibernateException hibEx)
-        {
-            hibEx.printStackTrace();
-        }finally
-        {
-            sessao.close();
-        }
-        
-        return listaF.size();
-    }
+            @Override
+            public String getColumnName(int columnIndex) {
+                String vet[] = new String[12];
+                vet[0] = "Id";
+                vet[1] = "Nome";
+                vet[2] = "Sexo";
+                vet[3] = "Data de Nascimento";
+                vet[4] = "CPF";
+                vet[5] = "Telefone";
+                vet[6] = "email";
+                vet[7] = "Formação";
+                vet[8] = "Tipo de Contrato";
+                vet[9] = "Salario";
+                vet[10] = "Endereço";
+                vet[11] = "Cidade";
 
-    @Override
-    public int getColumnCount()
-    {
-        return 12;
-    }
+                return vet[columnIndex];
+            }
 
-    @Override
-    public String getColumnName(int columnIndex)
-    {
-        String vet[] = new String[12];
-        vet[0] = "Id";
-        vet[1] = "Nome";
-        vet[2] = "Sexo";
-        vet[3] = "Data de Nascimento";
-        vet[4] = "CPF";
-        vet[5] = "Telefone";
-        vet[6] = "email";
-        vet[7] = "Formação";
-        vet[8] = "Tipo de Contrato";
-        vet[9] = "Salario";
-        vet[10] = "Endereço";
-        vet[11] = "Cidade";
-        
-        return vet[columnIndex];
-    }
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                Class vet[] = new Class[12];
+                vet[0] = Integer.class;
+                vet[1] = String.class;
+                vet[2] = String.class;
+                vet[3] = Date.class;
+                vet[4] = String.class;
+                vet[5] = String.class;
+                vet[6] = String.class;
+                vet[7] = String.class;
+                vet[8] = String.class;
+                vet[9] = Double.class;
+                vet[10] = String.class;
+                vet[11] = String.class;
 
-    @Override
-    public Class<?> getColumnClass(int columnIndex) 
-    {
-        Class vet[] = new Class[12];
-        vet[0] = Integer.class;
-        vet[1] = String.class;
-        vet[2] = String.class;
-        vet[3] = Date.class;
-        vet[4] = String.class;
-        vet[5] = String.class;
-        vet[6] = String.class;
-        vet[7] = String.class;
-        vet[8] = String.class;
-        vet[9] = Double.class;
-        vet[10] = String.class;
-        vet[11] = String.class;
-        
-        return vet[columnIndex];
-    }
+                return vet[columnIndex];
+            }
 
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) 
-    {
-        return false;
-    }
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
 
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) 
-    {
-        Session sessao = null;
-        List<Funcionario> listaF = null; 
-        try{
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
-            
-            Query query = sessao.createQuery("from Funcionario as f Where f.nome LIKE '%"+campoPesquisar.getText()+"%'");
-            listaF = query.list();
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                List<Funcionario> listaF = null;
+                try {
+                    listaF = DaoFactory.newFuncionarioDao().read("from Funcionario as f Where f.nome LIKE '%" + campoPesquisar.getText() + "%'");
+                } catch (DataBaseException ex) {
+                    java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-        }catch (HibernateException hibEx)
-        {
-            hibEx.printStackTrace();
-        }finally
-        {
-            sessao.close();
-        }
-        Object obj = null;
-        
-        if(columnIndex==0)
-        {
-            obj = listaF.get(rowIndex).getId();
-        }
-        if(columnIndex==1) 
-        {
-            obj = listaF.get(rowIndex).getNome();
-        }
-        if(columnIndex==2) 
-        {
-            obj = listaF.get(rowIndex).getSexo();
-        }
-        if(columnIndex==3) 
-        {
-            obj = listaF.get(rowIndex).getDt_nascimento();
-        }
-        if(columnIndex==4) 
-        {
-            obj = listaF.get(rowIndex).getCpf();
-        }
-        if(columnIndex==5) 
-        {
-            obj = listaF.get(rowIndex).getTelefone();
-        }
-     
-        if(columnIndex==6)
-        {
-            obj = listaF.get(rowIndex).getEmail();
-        }
-        
-        if(columnIndex==7)
-        {
-            obj = listaF.get(rowIndex).getFormacao();
-        }
-        
-        if(columnIndex==8)
-        {
-            obj = listaF.get(rowIndex).getTipoContrato();
-        }
-        
-        if(columnIndex==9)
-        {
-            obj = listaF.get(rowIndex).getSalario();
-        }
-        
-        if(columnIndex==10)
-        {
-            obj = listaF.get(rowIndex).getEndereco();
-        }
-        
-        if (columnIndex==11)
-        {
-            obj = listaF.get(rowIndex).getCidade().getNome();
-        }
-        
-        return obj;
-    }
+                Object obj = null;
 
-    @Override
-    public void setValueAt(Object o, int i, int i1) {
-        
-    }
+                if (columnIndex == 0) {
+                    obj = listaF.get(rowIndex).getId();
+                }
+                if (columnIndex == 1) {
+                    obj = listaF.get(rowIndex).getNome();
+                }
+                if (columnIndex == 2) {
+                    obj = listaF.get(rowIndex).getSexo();
+                }
+                if (columnIndex == 3) {
+                    obj = listaF.get(rowIndex).getDt_nascimento();
+                }
+                if (columnIndex == 4) {
+                    obj = listaF.get(rowIndex).getCpf();
+                }
+                if (columnIndex == 5) {
+                    obj = listaF.get(rowIndex).getTelefone();
+                }
 
-    @Override
-    public void addTableModelListener(TableModelListener tl) {
+                if (columnIndex == 6) {
+                    obj = listaF.get(rowIndex).getEmail();
+                }
 
-    }
+                if (columnIndex == 7) {
+                    obj = listaF.get(rowIndex).getFormacao();
+                }
 
-    @Override
-    public void removeTableModelListener(TableModelListener tl) {
-        
-    }
+                if (columnIndex == 8) {
+                    obj = listaF.get(rowIndex).getTipoContrato();
+                }
+
+                if (columnIndex == 9) {
+                    obj = listaF.get(rowIndex).getSalario();
+                }
+
+                if (columnIndex == 10) {
+                    obj = listaF.get(rowIndex).getEndereco();
+                }
+
+                if (columnIndex == 11) {
+                    obj = listaF.get(rowIndex).getCidade().getNome();
+                }
+
+                return obj;
+            }
+
+            @Override
+            public void setValueAt(Object o, int i, int i1) {
+
+            }
+
+            @Override
+            public void addTableModelListener(TableModelListener tl) {
+
+            }
+
+            @Override
+            public void removeTableModelListener(TableModelListener tl) {
+
+            }
         });
     }
-    
-    private void limpaCampos()
-    {
+
+    private void limpaCampos() {
         campoNome.setText("");
         campoSexo.setText("");
         campoCPF.setText("");
@@ -256,11 +216,9 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
         campoEndereco.setText("");
     }
 
-    private boolean validaCampos()
-    {
+    private boolean validaCampos() {
         boolean valido = true;
-        if (campoNome.getText().length() == 0 && campoSexo.getText().length() == 0 && campoCPF.getText().length() == 0 && campoFone.getText().length() == 0 && campoEmail.getText().length() == 0 && campoFormacao.getText().length() == 0 && campoTipoContrato.getText().length() == 0 && campoSalario.getText().length() == 0 && campoEndereco.getText().length() == 0)
-        {
+        if (campoNome.getText().length() == 0 && campoSexo.getText().length() == 0 && campoCPF.getText().length() == 0 && campoFone.getText().length() == 0 && campoEmail.getText().length() == 0 && campoFormacao.getText().length() == 0 && campoTipoContrato.getText().length() == 0 && campoSalario.getText().length() == 0 && campoEndereco.getText().length() == 0) {
             valido = false;
             JOptionPane.showMessageDialog(null, "Os campos não podem estar vazios.", "Verifique os campos!", JOptionPane.WARNING_MESSAGE);
         }
@@ -692,12 +650,9 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelarActionPerformed
-        if(painel.getSelectedIndex() == 0)
-        {
+        if (painel.getSelectedIndex() == 0) {
             limpaCampos();
-        }
-        else
-        {
+        } else {
             painel.setSelectedIndex(0);
         }
     }//GEN-LAST:event_botaoCancelarActionPerformed
@@ -707,11 +662,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
     }//GEN-LAST:event_botaoFecharActionPerformed
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
-        Session sessao = null;
-        try
-        {
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
-            Transaction transacao = sessao.beginTransaction();
+        
             Funcionario funcionario = new Funcionario();
             funcionario.setNome(campoNome.getText());
             funcionario.setSexo(campoSexo.getText());
@@ -723,93 +674,69 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
             funcionario.setTipoContrato(campoTipoContrato.getText());
             funcionario.setSalario(Double.parseDouble(this.campoSalario.getText()));
             funcionario.setNome(campoEndereco.getText());
-            funcionario.setCidade((Cidade)this.comboCidade.getSelectedItem());
-            sessao.save(funcionario);
-            transacao.commit();
+            funcionario.setCidade((Cidade) this.comboCidade.getSelectedItem());
+            
+        try {
+            DaoFactory.newFuncionarioDao().create(funcionario);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info("Cadastro do funcionario \""+ funcionario.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info("Cadastro do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
+        } catch (DataBaseException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DuplicateKeyException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch(HibernateException hibEx)
-        {
-            hibEx.printStackTrace();
-        }
-        finally
-        {
-            sessao.close();
-        }
+        
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
     private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
-        List resultado = null;
-        Session sessao = null;
 
-        try
-        {
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
-            Transaction transacao = sessao.beginTransaction();
-            int id;
+        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do funcionário a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
+        Funcionario funcionario = null;
 
-            id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do funcionário a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
-            org.hibernate.Query query = sessao.createQuery("FROM Funcionario WHERE id = " +id);
-            resultado = query.list();
-
-            for(Object obj : resultado)
-            {
-                Funcionario funcionario = (Funcionario) obj;
-                funcionario.setId(id);
-                funcionario.setNome(campoNome.getText());
-                funcionario.setSexo(campoSexo.getText());
-                funcionario.setCpf(campoCPF.getText());
-                funcionario.setDt_nascimento(this.campo_data_nascimento.getDate());
-                funcionario.setTelefone(campoFone.getText());
-                funcionario.setEmail(campoEmail.getText());
-                funcionario.setFormacao(campoFormacao.getText());
-                funcionario.setTipoContrato(campoTipoContrato.getText());
-                funcionario.setSalario(Double.parseDouble(this.campoSalario.getText()));
-                funcionario.setNome(campoEndereco.getText());
-                funcionario.setCidade((Cidade)this.comboCidade.getSelectedItem());
-                sessao.update(funcionario);
-                transacao.commit();
-                JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-                logger.info("Edicao do funcionario \""+ funcionario.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
-                this.atualizarTabela();
-            }
+        try {
+            funcionario = DaoFactory.newFuncionarioDao().read(id);
+            funcionario.setNome(campoNome.getText());
+            funcionario.setSexo(campoSexo.getText());
+            funcionario.setCpf(campoCPF.getText());
+            funcionario.setDt_nascimento(this.campo_data_nascimento.getDate());
+            funcionario.setTelefone(campoFone.getText());
+            funcionario.setEmail(campoEmail.getText());
+            funcionario.setFormacao(campoFormacao.getText());
+            funcionario.setTipoContrato(campoTipoContrato.getText());
+            funcionario.setSalario(Double.parseDouble(this.campoSalario.getText()));
+            funcionario.setNome(campoEndereco.getText());
+            funcionario.setCidade((Cidade) this.comboCidade.getSelectedItem());
+            
+            DaoFactory.newFuncionarioDao().edit(funcionario);
+            JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
+            logger.info("Edicao do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            this.atualizarTabela();
+            
+        } catch (DataBaseException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch(HibernateException hibEx)
-        {
-            hibEx.printStackTrace();
-        }
+
     }//GEN-LAST:event_botaoEditarActionPerformed
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
-        List resultado = null;
-        Session sessao = null;
 
-        try
-        {
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
-            Transaction transacao = sessao.beginTransaction();
-            
-            int id;
-            
-            id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do funcionário a ser EXCLUÍDO:", "Excluir", JOptionPane.PLAIN_MESSAGE));
-            org.hibernate.Query query = sessao.createQuery("FROM Funcionario WHERE id = " +id);
-            
-            resultado = query.list();
-            for(Object obj : resultado)
-            {
-                Funcionario funcionario = (Funcionario) obj;
-                sessao.delete(funcionario);
-                transacao.commit();
+        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do funcionário a ser EXCLUÍDO:", "Excluir", JOptionPane.PLAIN_MESSAGE));
+        Funcionario func = null;
+        try {
+            func = DaoFactory.newFuncionarioDao().read(id);
+            if (func != null) {
+                DaoFactory.newFuncionarioDao().delete(func);
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-                logger.info("Exclusao do funcionario \""+ funcionario.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+                logger.info("Exclusao do funcionario \"" + func.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
+            } else {
+                JOptionPane.showMessageDialog(null, "Registro não encontrado!");
             }
-            }catch(HibernateException hibEx)
-            {
-                hibEx.printStackTrace();
-            }
+        } catch (DataBaseException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
     private void botaoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarActionPerformed
@@ -820,7 +747,6 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame
         // TODO add your handling code here:
     }//GEN-LAST:event_campoPesquisarActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancelar;

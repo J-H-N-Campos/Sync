@@ -15,4 +15,5 @@ public interface GenericUser
 {
     public String getLogin();
     public String getPassword();
+    public int getNivelAcesso();
 }

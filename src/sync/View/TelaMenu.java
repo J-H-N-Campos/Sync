@@ -390,9 +390,9 @@ public class TelaMenu extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoLogoutActionPerformed
-        Sessao.getInstance().setUsuario(null);
-        this.dispose();
-        new TelaLogin().setVisible(true);
+//        Sessao.getInstance().setUsuario(null); //TENTANDO DE OUTRA FORMA
+//        this.dispose();
+//        new TelaLogin().setVisible(true);
     }//GEN-LAST:event_botaoLogoutActionPerformed
 
     private void botaoPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPacienteActionPerformed

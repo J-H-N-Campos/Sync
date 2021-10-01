@@ -5,11 +5,14 @@
  */
 package sync.View;
 
+import Utils.DataBaseException;
+import Utils.DuplicateKeyException;
 import Utils.NewHibernateUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.List;
+import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -19,20 +22,18 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.jboss.logging.Logger;
 import sync.Entidade.Pais;
+import sync.Persistence.DaoFactory;
 import sync.TableModels.TableModelPais;
-
 
 /**
  *
  * @author joao
  */
-public class TelaCadastroPais extends javax.swing.JFrame
-{
+public class TelaCadastroPais extends javax.swing.JFrame {
 
     private final static Logger logger = Logger.getLogger(TelaCadastroPais.class);
-    
-    public TelaCadastroPais()
-    {
+
+    public TelaCadastroPais() {
         initComponents();
         URL url = this.getClass().getResource("../Assets/Pais.png");
         Image icone = Toolkit.getDefaultToolkit().getImage(url);
@@ -40,134 +41,98 @@ public class TelaCadastroPais extends javax.swing.JFrame
         this.tabela.setModel(new TableModelPais());
     }
 
-    private void atualizarTabela()
-    {
-        this.tabela.setModel(new TableModel()
-        {
+    private void atualizarTabela() {
+        this.tabela.setModel(new TableModel() {
             @Override
-            public int getRowCount()
-            {
-                Session sessao = null;
-                List<Pais> listaP = null;
-                try
-                {
-                    sessao = NewHibernateUtil.getSessionFactory().openSession();
-                    System.out.println(campoPesquisar.getText());
-                    Query query = sessao.createQuery("FROM Pais As p Where p.nome like '%"+campoPesquisar.getText()+"%'");
-                    listaP = query.list();
-                }
-                catch(HibernateException hibEx)
-                {
-                    hibEx.printStackTrace();
-                }
-                finally
-                {
-                    sessao.close();
+            public int getRowCount() {
+                List listaP = null;
+                try {
+                    listaP = DaoFactory.newPaisDao().readAll();
+                } catch (DataBaseException ex) {
+                    java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return listaP.size();
             }
-            
+
             @Override
-            public int getColumnCount()
-            {
+            public int getColumnCount() {
                 return 3;
             }
-            
+
             @Override
-            public String getColumnName(int columnIndex)
-            {
+            public String getColumnName(int columnIndex) {
                 String vet[] = new String[3];
                 vet[0] = "Id";
                 vet[1] = "Nome";
                 vet[2] = "Idioma";
                 return vet[columnIndex];
             }
-            
+
             @Override
-            public Class<?> getColumnClass(int columnIndex)
-            {
+            public Class<?> getColumnClass(int columnIndex) {
                 Class vet[] = new Class[3];
                 vet[0] = Integer.class;
                 vet[1] = String.class;
                 vet[2] = String.class;
                 return vet[columnIndex];
             }
-            
+
             @Override
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return false;
             }
-            
+
             @Override
-            public Object getValueAt(int rowIndex, int columnIndex)
-            {
-                Session sessao = null;
+            public Object getValueAt(int rowIndex, int columnIndex) {
                 List<Pais> listaP = null;
-                try
-                {
-                    sessao = NewHibernateUtil.getSessionFactory().openSession();
-                    Query query = sessao.createQuery("from Pais as p where p.nome like '%"+campoPesquisar.getText()+"%'");
-                    listaP = query.list();
+                try {
+                    listaP = DaoFactory.newPaisDao().read("from Pais as p where p.nome like '%" + campoPesquisar.getText() + "%'");
+                } catch (DataBaseException ex) {
+                    java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                catch (HibernateException hibEx)
-                {
-                    hibEx.printStackTrace();
-                }
-                finally
-                {
-                    sessao.close();
-                }
+
                 Object obj = null;
-                
-                if(columnIndex==0)
-                {
+
+                if (columnIndex == 0) {
                     obj = listaP.get(rowIndex).getId();
                 }
-                if(columnIndex==1)
-                {
+                if (columnIndex == 1) {
                     obj = listaP.get(rowIndex).getNome();
                 }
-                if(columnIndex==2)
-                {
+                if (columnIndex == 2) {
                     obj = listaP.get(rowIndex).getIdioma();
                 }
                 return obj;
             }
-            
+
             @Override
-            public void setValueAt(Object aValue, int rowIndex, int columnIndex)
-            {
+            public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
             }
-            
+
             @Override
-            public void addTableModelListener(TableModelListener l)
-            {
+            public void addTableModelListener(TableModelListener l) {
             }
-            
+
             @Override
-            public void removeTableModelListener(TableModelListener l)
-            {
+            public void removeTableModelListener(TableModelListener l) {
             }
         });
     }
-    
-    private void limpaCampos()
-    {
+
+    private void limpaCampos() {
         campoNome.setText("");
         campoIdioma.setText("");
     }
 
-    private boolean validaCampos()
-    {
+    private boolean validaCampos() {
         boolean valido = true;
-        if (campoNome.getText().length() == 0 && campoIdioma.getText().length() == 0)
-        {
+        if (campoNome.getText().length() == 0 && campoIdioma.getText().length() == 0) {
             valido = false;
             JOptionPane.showMessageDialog(null, "Os campos não podem estar vazios.", "Verifique os campos!", JOptionPane.WARNING_MESSAGE);
         }
         return valido;
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -456,7 +421,7 @@ public class TelaCadastroPais extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarActionPerformed
-       this.atualizarTabela();
+        this.atualizarTabela();
     }//GEN-LAST:event_botaoPesquisarActionPerformed
 
     private void botaoFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoFecharActionPerformed
@@ -464,104 +429,69 @@ public class TelaCadastroPais extends javax.swing.JFrame
     }//GEN-LAST:event_botaoFecharActionPerformed
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
-        List resultado = null;
-        Session sessao = null;
-        
-        try
-        {
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
-            Transaction transacao = sessao.beginTransaction();
-            int id;
-            id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do pais a ser EXCLUÍDO:", "Excluir", JOptionPane.PLAIN_MESSAGE));
-            org.hibernate.Query query = sessao.createQuery("FROM Pais WHERE id = " +id);
-            resultado = query.list();
-            
-            for(Object obj : resultado)
-            {
-                Pais pais = (Pais) obj;
-                sessao.delete(pais);
-                transacao.commit();
-                JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-                logger.info("Exclusao do pais \""+ pais.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
-                this.atualizarTabela();
-            }
+
+        int id;
+        id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do pais a ser EXCLUÍDO:", "Excluir", JOptionPane.PLAIN_MESSAGE));
+        Pais pais = null;
+        try {
+            pais = DaoFactory.newPaisDao().read(id);
+            DaoFactory.newPaisDao().delete(pais);
+            JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
+            logger.info("Exclusao do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            this.atualizarTabela();
+        } catch (DataBaseException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch(HibernateException hibEx)
-        {
-            hibEx.printStackTrace();
-        }
+
+
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
     private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
-        List resultado = null;
-        Session sessao = null;
-        
-        try
-        {
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
-            Transaction transacao = sessao.beginTransaction();
-            int id;
-            
-            id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do pais a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
-            org.hibernate.Query query = sessao.createQuery("FROM Pais WHERE id = " +id);
-            resultado = query.list();
-            
-            for(Object obj : resultado)
-            {
-                Pais pais = (Pais) obj;
-                pais.setId(id);
-                pais.setNome(campoNome.getText());
-                pais.setIdioma(campoIdioma.getText());
-                sessao.update(pais);
-                transacao.commit();
-                JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-                logger.info("Edicao do pais \""+ pais.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
-                this.atualizarTabela();
-            }
+
+        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do pais a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
+        try {
+            Pais pais = DaoFactory.newPaisDao().read(id);
+            pais.setNome(campoNome.getText());
+            pais.setIdioma(campoIdioma.getText());
+            DaoFactory.newPaisDao().edit(pais);
+            JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
+            logger.info("Edicao do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            this.atualizarTabela();
+        } catch (DataBaseException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch(HibernateException hibEx)
-        {
-            hibEx.printStackTrace();
-        }
+
+
     }//GEN-LAST:event_botaoEditarActionPerformed
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
-        Session sessao = null;
-        try
-        {
-            sessao = NewHibernateUtil.getSessionFactory().openSession();
-            Transaction transacao = sessao.beginTransaction();
+        
             Pais pais = new Pais();
             pais.setNome(campoNome.getText());
             pais.setIdioma(campoIdioma.getText());
-            sessao.save(pais);
-            transacao.commit();
+        try {
+            DaoFactory.newPaisDao().create(pais);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info("Cadastro do pais \""+ pais.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info("Cadastro do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
+        } catch (DataBaseException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DuplicateKeyException ex) {
+            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch(HibernateException hibEx)
-        {
-            hibEx.printStackTrace();
-        }
-        finally
-        {
-            sessao.close();
-        }
+            
+       
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
     private void botaoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelarActionPerformed
-        if(painel.getSelectedIndex() == 0)
-        {
+        if (painel.getSelectedIndex() == 0) {
             limpaCampos();
-        }
-        else
-        {
+        } else {
             painel.setSelectedIndex(0);
         }
     }//GEN-LAST:event_botaoCancelarActionPerformed
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancelar;
     private javax.swing.JButton botaoEditar;

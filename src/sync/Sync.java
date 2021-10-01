@@ -19,9 +19,11 @@ public class Sync {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        PropertyConfigurator.configure("log4j.properties");
-        TelaMenu tela = new TelaMenu();
-        tela.setVisible(true);
+//        PropertyConfigurator.configure("log4j.properties");
+//        TelaMenu tela = new TelaMenu();
+//        tela.setVisible(true);
+        Sistema_Sync sistema = Sistema_Sync.get_instance();
+        sistema.start();
     }
     
 }

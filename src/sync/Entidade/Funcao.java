@@ -21,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="funcao")
-class Funcao implements Serializable{
+public class Funcao implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -62,6 +62,17 @@ class Funcao implements Serializable{
 
     public void setFuncionarios(List<Funcionario> funcionarios) {
         this.funcionarios = funcionarios;
+    }
+
+    public Funcao(int id, String especializacao, int nivel_permicao, List<Funcionario> funcionarios) {
+        this.id = id;
+        this.especializacao = especializacao;
+        this.nivel_permicao = nivel_permicao;
+        this.funcionarios = funcionarios;
+    }
+
+    public Funcao(String especializacao) {
+        this.especializacao = especializacao;
     }
     
     
