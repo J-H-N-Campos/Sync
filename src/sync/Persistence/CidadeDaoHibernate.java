@@ -117,7 +117,6 @@ public class CidadeDaoHibernate implements CidadeDao{
         }
         return listaF;
     }
-
     @Override
     public List<Cidade> readAll() throws DataBaseException {
         Session sessao = null;

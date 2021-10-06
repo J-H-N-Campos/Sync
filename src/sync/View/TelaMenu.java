@@ -429,7 +429,7 @@ public class TelaMenu extends javax.swing.JFrame
     }//GEN-LAST:event_botaoConvenioActionPerformed
 
     private void botaoFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoFuncionarioActionPerformed
-        TelaCadastroFuncionarioTESTE tela = new TelaCadastroFuncionarioTESTE();
+        TelaCadastroFuncionario tela = new TelaCadastroFuncionario();
         tela.setVisible(true);
     }//GEN-LAST:event_botaoFuncionarioActionPerformed
 

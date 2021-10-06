@@ -45,6 +45,8 @@ public class TelaCadastroCidade extends javax.swing.JFrame {
         this.setIconImage(icone);
         this.tabela.setModel(new TableModelCidade());
 
+//        Sistema_Sync.get_instance().getLoggedUser().getNivelAcesso();
+        
         List<Estado> listaE = null;
         try {
             listaE = DaoFactory.newEstadoDao().readAll();
@@ -505,7 +507,7 @@ public class TelaCadastroCidade extends javax.swing.JFrame {
                 cidade.setEstado((Estado) this.comboEstado.getSelectedItem());
                 DaoFactory.newCidadeDao().delete(cidade);
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Exclusao da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Exclusao da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois                
                 this.atualizarTabela();
         } catch (DataBaseException ex) {
             java.util.logging.Logger.getLogger(TelaCadastroCidade.class.getName()).log(Level.SEVERE, null, ex);

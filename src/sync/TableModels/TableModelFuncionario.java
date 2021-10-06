@@ -21,6 +21,10 @@ import sync.Entidade.Funcionario;
  */
 public class TableModelFuncionario implements TableModel{
     
+    private String query;
+    public TableModelFuncionario(String query){
+        this.query=query;
+    }
     @Override
     public int getRowCount()
     {
