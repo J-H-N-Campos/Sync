@@ -5,17 +5,16 @@
  */
 package sync.View;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.io.File;
+import Utils.CSVUtils;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.apache.log4j.Logger;
+
 
 /**
  *
@@ -23,25 +22,110 @@ import java.util.logging.Logger;
  */
 public class TelaLogs extends javax.swing.JFrame
 {
-
+    private String fileName;
+    private final static Logger logger = Logger.getLogger(TelaLogs.class);
+    
     public TelaLogs()
     {
         initComponents();
-        URL url = this.getClass().getResource("../Assets/log-45.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
-//        Files.readAllLines("../../logs/logging.log");
+        this.fileName = "src\\logs\\logging.log";
+        attTArea();
+        
+        getRootPane().setDefaultButton(btnBuscar);
+    }
+    
+    private void attTArea()
+    {   
+        this.campoLogs.setText("");
+        List<String> linhas = getLinhas();
+        for (String ln : linhas) {
+                this.campoLogs.append(ln+"\n");
+        }
+    }
+    
+    private List<String> getLinhas(){
+        List<String> listaLinha = new ArrayList();
+        boolean filterWarn = this.cBoxWARN.isSelected();
+        
+        boolean filterError = this.cBoxERROR.isSelected();
+        boolean filterFatal = this.cBoxFATAL.isSelected();
+        boolean filterAll = (!filterWarn&&!filterError&&!filterFatal)||(filterWarn&&filterError&&filterFatal);
+        
+        List<String> tipo = new ArrayList();
+        if (!filterAll) {
+            
+            if (filterWarn) {
+                tipo.add("[WARN ]");
+            }
+            if (filterError) {
+                tipo.add("[ERROR]");
+            }
+            if (filterFatal) {
+                tipo.add("[FATAL]");
+            }
+        }
+        
+        
+        Date dataIni = this.dcDataInicial.getDate();
+        if (dataIni == null) {
+            dataIni = new Date(0);
+        }
+        Date dataFin = this.dcDataFinal.getDate();
+        if (dataFin == null) {
+            dataFin = new Date();
+        }
+        String msg = this.tfdBusca.getText();
+        
+        boolean msgIsSet = true;
+        if (msg.isEmpty()) {
+            msgIsSet=false;
+        }
+        
+        
+        
         List<String> list = null;
         try {
             list = Files.readAllLines(Paths.get("src\\logs\\logging.log"));
-            for (String lin : list) {
-            this.campoLogs.append(lin+"\n");
-        }
+            
         } catch (IOException ex) {
-            Logger.getLogger(TelaLogs.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
+
         
         
+        
+        
+        for (String lin : list) {
+            String[] split = lin.split("/");
+
+
+            boolean verify = true;
+            
+            if (!filterAll) {
+                int count = 0;
+                for (String s : tipo) {
+                
+                    if (split[1].equals(s)) {
+                        count ++;
+                    }
+                }
+                if (count == 0) {
+                    verify=false;
+                }
+            }else if(!(java.sql.Timestamp.valueOf(split[0].substring(1,split[0].length()-2)).after(dataIni)&&java.sql.Timestamp.valueOf(split[0].substring(1,split[0].length()-2)).before(dataFin))){
+                verify=false;
+            }else if (msgIsSet) {
+                
+                if (!msg.equals(split[3].substring(1, msg.length()+1))) {
+                    verify = false;
+                }
+            }
+            if (verify) {
+                listaLinha.add(lin);
+            }
+            
+        }
+        return listaLinha;
     }
 
     @SuppressWarnings("unchecked")
@@ -49,21 +133,28 @@ public class TelaLogs extends javax.swing.JFrame
     private void initComponents() {
 
         jInternalFrame1 = new javax.swing.JInternalFrame();
-        jPanel1 = new javax.swing.JPanel();
         botaoFechar = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        btnBuscar = new javax.swing.JButton();
+        btnCSVLog = new javax.swing.JButton();
+        dcDataFinal = new com.toedter.calendar.JDateChooser();
+        jLabel5 = new javax.swing.JLabel();
+        dcDataInicial = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        tfdBusca = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         campoLogs = new javax.swing.JTextArea();
+        cBoxERROR = new javax.swing.JCheckBox();
+        cBoxWARN = new javax.swing.JCheckBox();
+        cBoxFATAL = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
+        setTitle("Tela de Logs");
 
-        jInternalFrame1.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
-        jInternalFrame1.setFrameIcon(null);
         jInternalFrame1.setVisible(true);
-
-        jPanel1.setBackground(new java.awt.Color(200, 200, 200));
-        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
         botaoFechar.setBackground(new java.awt.Color(200, 200, 200));
         botaoFechar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -76,69 +167,163 @@ public class TelaLogs extends javax.swing.JFrame
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(1265, Short.MAX_VALUE)
-                .addComponent(botaoFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(56, Short.MAX_VALUE)
-                .addComponent(botaoFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
-        );
+        btnBuscar.setBackground(new java.awt.Color(200, 200, 200));
+        btnBuscar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/search-30.png"))); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
-        jPanel2.setBackground(new java.awt.Color(200, 200, 200));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Logs", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial Black", 1, 14))); // NOI18N
+        btnCSVLog.setBackground(new java.awt.Color(200, 200, 200));
+        btnCSVLog.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        btnCSVLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/exportar-csv-30.png"))); // NOI18N
+        btnCSVLog.setText("Exportar para CSV");
+        btnCSVLog.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btnCSVLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCSVLogActionPerformed(evt);
+            }
+        });
 
-        campoLogs.setBackground(new java.awt.Color(240, 240, 240));
+        jLabel5.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel5.setText("Última Data Registrada:");
+
+        jLabel4.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel4.setText("Data Inicial Registrada:");
+
+        jLabel6.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel6.setText("Filtro de data:");
+
+        jLabel2.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel2.setText("Tipo de Log:");
+
+        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel1.setText("Busca:");
+
+        jLabel3.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel3.setText("Mensagem:");
+
+        tfdBusca.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfdBusca.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+
         campoLogs.setColumns(20);
         campoLogs.setRows(5);
-        campoLogs.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         jScrollPane1.setViewportView(campoLogs);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
-        );
+        cBoxERROR.setText("ERROR");
+
+        cBoxWARN.setText("WARN");
+
+        cBoxFATAL.setText("FATAL");
 
         javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botaoFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                        .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel6))
+                                .addGap(18, 18, 18)
+                                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(dcDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(dcDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                        .addComponent(cBoxWARN)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cBoxERROR)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cBoxFATAL))))
+                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfdBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                        .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCSVLog, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
+
+        jInternalFrame1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {botaoFechar, btnBuscar, btnCSVLog});
+
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(cBoxWARN)
+                                    .addComponent(cBoxERROR)
+                                    .addComponent(cBoxFATAL)))
+                            .addComponent(btnCSVLog, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(2, 2, 2)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel4))
+                                .addComponent(dcDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(dcDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(11, 11, 11)
+                        .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(tfdBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+                .addComponent(botaoFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        jInternalFrame1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {botaoFechar, btnBuscar, btnCSVLog});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jInternalFrame1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jInternalFrame1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -149,12 +334,56 @@ public class TelaLogs extends javax.swing.JFrame
         this.dispose();
     }//GEN-LAST:event_botaoFecharActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+
+          this.attTArea();
+
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnCSVLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCSVLogActionPerformed
+        //GERANDO ARQUIVO DE LOG
+        //PEGAR O PATH PARA SALVAR O ARQUIVO
+        String getPathFileChooser = CSVUtils.getDirPath();
+        //PEDIR UM NOME PARA O ARQUIVO
+        String whatTheUserEntered = JOptionPane.showInputDialog(null,
+            "Digite um nome para o arquivo CSV", "Nome do arquivo",
+            JOptionPane.INFORMATION_MESSAGE);
+        if (whatTheUserEntered == null) {
+            System.out.println("The user canceled");
+        } else {
+            String[] cabecalho = {"Data Hora", "Tipo do Erro", "Local", "Mensagem"};
+            String arquivopath = getPathFileChooser+"\\" + whatTheUserEntered + ".csv";
+            CSVUtils.writeOneLine(cabecalho, arquivopath);
+            //COMEÇA PEGAR AS INFORMAÇÕES DA AREA
+            List<String> list = this.getLinhas();
+            for (String ln : list) {
+                String[] linha = ln.split("/");//3 COLUNAS
+                CSVUtils.writeOneLine(linha, arquivopath);
+
+            }
+            //AVISO
+            JOptionPane.showMessageDialog(null, "Arquivo de log gerado em: " + arquivopath,
+                "LOG gerado com sucesso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCSVLogActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoFechar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCSVLog;
+    private javax.swing.JCheckBox cBoxERROR;
+    private javax.swing.JCheckBox cBoxFATAL;
+    private javax.swing.JCheckBox cBoxWARN;
     private javax.swing.JTextArea campoLogs;
+    private com.toedter.calendar.JDateChooser dcDataFinal;
+    private com.toedter.calendar.JDateChooser dcDataInicial;
     private javax.swing.JInternalFrame jInternalFrame1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField tfdBusca;
     // End of variables declaration//GEN-END:variables
 }
