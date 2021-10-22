@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
+
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
@@ -53,7 +53,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         try {
             listaC = DaoFactory.newCidadeDao().readAll();
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
         this.comboCidade.removeAllItems();
@@ -66,7 +66,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         try {
             listaF = DaoFactory.newFuncaoDao().readAll();
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TesteDinamico.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         initingComponents();
 
@@ -85,7 +85,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
                 try {
                     lista = DaoFactory.newFuncionarioDao().read("from Funcionario as f Where f.nome LIKE '%" + campoPesquisar.getText() + "%'");
                 } catch (DataBaseException ex) {
-                    java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.error(ex.getMessage());
                 }
                 return lista.size();
             }
@@ -144,7 +144,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
                 try {
                     listaF = DaoFactory.newFuncionarioDao().read("from Funcionario as f Where f.nome LIKE '%" + campoPesquisar.getText() + "%'");
                 } catch (DataBaseException ex) {
-                    java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.error(ex.getMessage());
                 }
 
                 Object obj = null;
@@ -840,7 +840,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
                     funcao = DaoFactory.newFuncaoDao().read(Integer.parseInt(box.getName()));
 
                 } catch (DataBaseException ex) {
-                    java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.error(ex.getMessage());
                 }
                 if (funcao != null) {
 
@@ -854,12 +854,12 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         try {
             DaoFactory.newFuncionarioDao().create(funcionario);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "] [Cadastro do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/[Cadastro do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         } catch (DuplicateKeyException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
     }//GEN-LAST:event_botaoSalvarActionPerformed
@@ -892,7 +892,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
                         funcao = DaoFactory.newFuncaoDao().read(Integer.parseInt(box.getName()));
 
                     } catch (DataBaseException ex) {
-                        java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+                        logger.error(ex.getMessage());
                     }
                     if (funcao != null) {
 
@@ -905,11 +905,11 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
 
             DaoFactory.newFuncionarioDao().edit(funcionario);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "] [Edicao do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/[Edicao do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
 
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
     }//GEN-LAST:event_botaoEditarActionPerformed
@@ -923,13 +923,13 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             if (func != null) {
                 DaoFactory.newFuncionarioDao().delete(func);
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "] [Exclusao do funcionario \"" + func.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/[Exclusao do funcionario \"" + func.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
             } else {
                 JOptionPane.showMessageDialog(null, "Registro não encontrado!");
             }
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
     }//GEN-LAST:event_botaoExcluirActionPerformed

@@ -5,28 +5,39 @@
  */
 package sync.View;
 
-import Utils.Sessao;
+import Utils.Authenticator;
+import Utils.DataBaseException;
+import Utils.FatalSystemException;
+import Utils.GenericUser;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import org.apache.log4j.Logger;
+import sync.Entidade.Usuario;
+import sync.Persistence.DaoFactory;
+import sync.Sistema_Sync;
 
 /**
  *
  * @author joao
  */
-public class TelaMenu extends javax.swing.JFrame
-{
+public class TelaMenu extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaMenu
      */
-    public TelaMenu()
-    {
+    private static final Logger logger = Logger.getLogger(TelaMenu.class);
+    
+    public TelaMenu() {
         initComponents();
-        
+
         URL url = this.getClass().getResource("../Assets/Menu.png");
         Image icone = Toolkit.getDefaultToolkit().getImage(url);
         this.setIconImage(icone);
+        atualizarPermissao();
     }
 
     /**
@@ -45,8 +56,8 @@ public class TelaMenu extends javax.swing.JFrame
         jPanel2 = new javax.swing.JPanel();
         desktop = new javax.swing.JDesktopPane();
         painel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        botaoLog = new javax.swing.JButton();
+        botaoAuditoria = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         botaoUsuario = new javax.swing.JButton();
         botaoFuncionario = new javax.swing.JButton();
@@ -65,6 +76,14 @@ public class TelaMenu extends javax.swing.JFrame
         setBackground(new java.awt.Color(80, 150, 200));
         setName("menu"); // NOI18N
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(80, 150, 200));
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
@@ -130,22 +149,27 @@ public class TelaMenu extends javax.swing.JFrame
         painel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Opções do Administrador", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Arial Black", 1, 14))); // NOI18N
         painel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(200, 200, 200));
-        jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/log-45.png"))); // NOI18N
-        jButton1.setText("Logs do Sistema");
-        jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botaoLog.setBackground(new java.awt.Color(200, 200, 200));
+        botaoLog.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        botaoLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/log-45.png"))); // NOI18N
+        botaoLog.setText("Logs do Sistema");
+        botaoLog.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoLog.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botaoLogActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(200, 200, 200));
-        jButton2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/auditoria-45.png"))); // NOI18N
-        jButton2.setText("Auditoria do Sistema");
-        jButton2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoAuditoria.setBackground(new java.awt.Color(200, 200, 200));
+        botaoAuditoria.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        botaoAuditoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/auditoria-45.png"))); // NOI18N
+        botaoAuditoria.setText("Auditoria do Sistema");
+        botaoAuditoria.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoAuditoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoAuditoriaActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(200, 200, 200));
         jButton3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -159,28 +183,28 @@ public class TelaMenu extends javax.swing.JFrame
             painel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel4Layout.createSequentialGroup()
                 .addGap(269, 269, 269)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botaoLog, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(botaoAuditoria)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
                 .addContainerGap(209, Short.MAX_VALUE))
         );
 
-        painel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton3});
+        painel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {botaoAuditoria, botaoLog, jButton3});
 
         painel4Layout.setVerticalGroup(
             painel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel4Layout.createSequentialGroup()
                 .addGap(73, 73, 73)
                 .addGroup(painel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
+                    .addComponent(botaoLog, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoAuditoria)
                     .addComponent(jButton3))
                 .addContainerGap(101, Short.MAX_VALUE))
         );
 
-        painel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2, jButton3});
+        painel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {botaoAuditoria, botaoLog, jButton3});
 
         botaoUsuario.setBackground(new java.awt.Color(200, 200, 200));
         botaoUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -395,13 +419,37 @@ public class TelaMenu extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoLogoutActionPerformed
-//        Sessao.getInstance().setUsuario(null); //TENTANDO DE OUTRA FORMA
-//        this.dispose();
-//        new TelaLogin().setVisible(true);
+            List<GenericUser> usuarios = new ArrayList();
+                try {
+                    List<Usuario> users = DaoFactory.newUsuarioDao().readAll();
+                    
+                    for (Usuario user : users) {
+                        
+                        usuarios.add(user);
+                    }
+                    this.hide();
+                    Authenticator auth = new Authenticator(usuarios);
+
+                    auth.runAuthentication();
+
+                    if (auth.getLoggedUser() == null) {
+                        throw new FatalSystemException("Processo de autenticação cancelado");
+                    }
+
+                    // setar o usuário logado na aplicação
+                    Sistema_Sync.get_instance().setLoggedUser(auth.getLoggedUser());
+                    this.atualizarPermissao();
+                    this.show();
+
+                } catch (DataBaseException | FatalSystemException ex) {
+                    logger.fatal(ex.getMessage());
+                }
+
     }//GEN-LAST:event_botaoLogoutActionPerformed
 
     private void botaoPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPacienteActionPerformed
-        // TODO add your handling code here:
+        TelaCadastroPaciente tela = new TelaCadastroPaciente();
+        tela.setVisible(true);
     }//GEN-LAST:event_botaoPacienteActionPerformed
 
     private void botaoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoUsuarioActionPerformed
@@ -433,27 +481,82 @@ public class TelaMenu extends javax.swing.JFrame
         tela.setVisible(true);
     }//GEN-LAST:event_botaoFuncionarioActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botaoLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoLogActionPerformed
         TelaLogs tela = new TelaLogs();
         tela.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_botaoLogActionPerformed
 
-    
+    private void botaoAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAuditoriaActionPerformed
+        TelaAuditoria tela = new TelaAuditoria();
+        tela.setVisible(true);
+    }//GEN-LAST:event_botaoAuditoriaActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        Sistema_Sync.get_instance().runFinalProcesses();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
+    }//GEN-LAST:event_formWindowClosing
+
+    private void atualizarPermissao() {
+        // 10 - Admin sistema
+        // 9 - Administrativo
+        // 8 - 
+        // 7 - Gerencia
+        // 6 - RH
+        // 5 - Alimentadores do sistema 1
+        // 4 - TI
+        // 3 - Medicos
+        // 2 - Atendimento
+        // 1 - Alimentadores do sistema 2
+        int perm = Sistema_Sync.get_instance().getLoggedUser().getNivelAcesso();
+        if (perm < 10) {
+            //
+            if (perm < 9) {
+                this.botaoAuditoria.setEnabled(false);
+                this.botaoLog.setEnabled(false);
+                
+                if (perm < 8) {
+                    if (perm < 7) {
+                        this.botaoRelatorios.setEnabled(false);
+                        if (perm < 6) {
+                            this.botaoFuncionario.setEnabled(false);
+                            if (perm < 5) {
+                                this.botaoConvenio.setEnabled(false);
+                                if (perm < 4) {
+                                    //telas de confiramção de registros
+                                    if (perm < 3) {
+                                        this.botaoEmail.setEnabled(false);
+                                        this.botaoPaciente.setEnabled(false);
+                                        if (perm < 2) {
+                                                                                    
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botaoAuditoria;
     private javax.swing.JButton botaoCidade;
     private javax.swing.JButton botaoConvenio;
     private javax.swing.JButton botaoEmail;
     private javax.swing.JButton botaoEstado;
     private javax.swing.JButton botaoFuncionario;
+    private javax.swing.JButton botaoLog;
     private javax.swing.JButton botaoLogout;
     private javax.swing.JButton botaoPaciente;
     private javax.swing.JButton botaoPais;
     private javax.swing.JButton botaoRelatorios;
     private javax.swing.JButton botaoUsuario;
     private javax.swing.JDesktopPane desktop;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

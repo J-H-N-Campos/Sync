@@ -12,7 +12,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.List;
-import java.util.logging.Level;
+
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -50,7 +50,7 @@ public class TelaCadastroPais extends javax.swing.JFrame {
                 try {
                     listaP = DaoFactory.newPaisDao().read("from Pais as p where p.nome like '%" + campoPesquisar.getText() + "%'");
                 } catch (DataBaseException ex) {
-                    java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.error(ex.getMessage());
                 }
                 return listaP.size();
             }
@@ -89,7 +89,7 @@ public class TelaCadastroPais extends javax.swing.JFrame {
                 try {
                     listaP = DaoFactory.newPaisDao().read("from Pais as p where p.nome like '%" + campoPesquisar.getText() + "%'");
                 } catch (DataBaseException ex) {
-                    java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.error(ex.getMessage());
                 }
 
                 Object obj = null;
@@ -438,10 +438,10 @@ public class TelaCadastroPais extends javax.swing.JFrame {
             pais = DaoFactory.newPaisDao().read(id);
             DaoFactory.newPaisDao().delete(pais);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Exclusao do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
 
@@ -456,10 +456,10 @@ public class TelaCadastroPais extends javax.swing.JFrame {
             pais.setIdioma(campoIdioma.getText());
             DaoFactory.newPaisDao().edit(pais);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Edicao do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
 
@@ -473,12 +473,12 @@ public class TelaCadastroPais extends javax.swing.JFrame {
         try {
             DaoFactory.newPaisDao().create(pais);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Cadastro do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         } catch (DuplicateKeyException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroPais.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
             
        

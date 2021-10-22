@@ -13,7 +13,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.List;
-import java.util.logging.Level;
+
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -53,7 +53,7 @@ public class TelaCadastroEstado extends javax.swing.JFrame {
         try {
             listaP = DaoFactory.newPaisDao().readAll();
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEstado.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
         this.comboPais.removeAllItems();
@@ -412,12 +412,12 @@ public class TelaCadastroEstado extends javax.swing.JFrame {
         try {
             DaoFactory.newEstadoDao().create(estado);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Cadastro do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEstado.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         } catch (DuplicateKeyException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEstado.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
@@ -434,10 +434,10 @@ public class TelaCadastroEstado extends javax.swing.JFrame {
 
             DaoFactory.newEstadoDao().edit(estado);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Edicao do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEstado.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
     }//GEN-LAST:event_botaoEditarActionPerformed
 
@@ -449,10 +449,10 @@ public class TelaCadastroEstado extends javax.swing.JFrame {
             Estado estado = DaoFactory.newEstadoDao().read(id);
             DaoFactory.newEstadoDao().delete(estado);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Exclusao do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroEstado.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
 
 
@@ -471,7 +471,7 @@ public class TelaCadastroEstado extends javax.swing.JFrame {
                 try {
                     listaP = DaoFactory.newEstadoDao().read("FROM Estado As p Where p.nome like '%" + campoPesquisar.getText() + "%'");
                 } catch (DataBaseException ex) {
-                    java.util.logging.Logger.getLogger(TelaCadastroEstado.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.error(ex.getMessage());
                 }
 
                 return listaP.size();
@@ -514,7 +514,7 @@ public class TelaCadastroEstado extends javax.swing.JFrame {
                 try {
                     listaP = DaoFactory.newEstadoDao().read("FROM Estado As p Where p.nome like '%" + campoPesquisar.getText() + "%'");
                 } catch (DataBaseException ex) {
-                    java.util.logging.Logger.getLogger(TelaCadastroEstado.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.error(ex.getMessage());
                 }
 
                 Object obj = null;

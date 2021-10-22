@@ -11,9 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+
 import javax.swing.JOptionPane;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -21,6 +22,8 @@ import javax.swing.JOptionPane;
  */
 public abstract class Application
 {
+    private final static Logger logger = Logger.getLogger(Application.class);
+    
     public final static int START_WITHOUT_DEFAULT_PROCESSES = 0;
     public final static int START_WITH_DEFAULT_PROCESSES = 1;
     
@@ -215,6 +218,7 @@ public abstract class Application
             } 
             catch (FatalSystemException ex)
             {
+                logger.fatal(ex.getMessage());
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 System.exit(0);
             }
@@ -237,6 +241,7 @@ public abstract class Application
             } 
             catch (FatalSystemException ex)
             {
+                logger.fatal(ex.getMessage());
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 System.exit(0);
             }
@@ -257,6 +262,7 @@ public abstract class Application
             } 
             catch (FatalSystemException ex)
             {
+                logger.fatal(ex.getMessage());
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 System.exit(0);
             }
@@ -280,6 +286,7 @@ public abstract class Application
             defineDefaultInitialProcesses();
         }
         defineInitialProcesses();
+        defineFinalProcesses();
         runInitalProcesses();
     }
     
@@ -354,6 +361,7 @@ public abstract class Application
         } 
         catch (DataBaseException ex)
         {
+            logger.fatal(ex.getMessage());
             throw new FatalSystemException( ex.getMessage() );
         }
 

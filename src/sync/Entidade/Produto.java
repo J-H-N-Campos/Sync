@@ -62,6 +62,4 @@ public class Produto implements Serializable{
     public void setMarca(String marca) {
         this.marca = marca;
     }
-    
-    
 }

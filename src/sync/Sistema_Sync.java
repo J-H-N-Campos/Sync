@@ -16,9 +16,7 @@ import Utils.FatalSystemException;
 import Utils.GenericUser;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import sync.Entidade.Usuario;
 import sync.Persistence.DaoFactory;
@@ -31,6 +29,7 @@ import sync.View.TelaMenu;
  */
 public class Sistema_Sync extends Application{
 
+    private static final Logger logger = Logger.getLogger(Sistema_Sync.class);
     private static Sistema_Sync sistema = new Sistema_Sync();
     
     DataBaseConnectionManager conn;
@@ -96,7 +95,7 @@ public class Sistema_Sync extends Application{
                     setLoggedUser(auth.getLoggedUser());
 
                 } catch (DataBaseException ex) {
-                    System.out.println(ex.getMessage());
+                    logger.fatal(ex.getMessage());
                 }
 
             }
@@ -125,7 +124,12 @@ public class Sistema_Sync extends Application{
 
     @Override
     public void defineFinalProcesses() {
-        //Nao sei oq por aqui
+        this.addFinalProcess(new ApplicationProcess("Encerrando o sistema") {
+            @Override
+            public void run() throws FatalSystemException {
+                System.exit(0);
+            }
+        });
     }
 
     

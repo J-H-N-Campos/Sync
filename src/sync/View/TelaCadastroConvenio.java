@@ -7,20 +7,14 @@ package sync.View;
 
 import Utils.DataBaseException;
 import Utils.DuplicateKeyException;
-import Utils.NewHibernateUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.List;
-import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import sync.Entidade.Convenio;
 import sync.Persistence.DaoFactory;
 import sync.Sistema_Sync;
@@ -54,7 +48,7 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
                 try {
                     listaC = DaoFactory.newConvenioDao().read("FROM Convenio As c Where c.nome like '%"+campoPesquisar.getText()+"%'");
                 } catch (DataBaseException ex) {
-                    java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.error(ex.getMessage());
                 }
                     
                 return listaC.size();
@@ -99,7 +93,7 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
                 try {
                     listaC = DaoFactory.newConvenioDao().read("FROM Convenio As c Where c.nome like '%"+campoPesquisar.getText()+"%'");
                 } catch (DataBaseException ex) {
-                    java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.error(ex.getMessage());
                 }
                 Object obj = null;
                 
@@ -472,12 +466,12 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
         try {
             DaoFactory.newConvenioDao().create(convenio);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Cadastro do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         } catch (DuplicateKeyException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
             
         
@@ -490,10 +484,10 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
             Convenio convenio = DaoFactory.newConvenioDao().read(id);
             DaoFactory.newConvenioDao().delete(convenio);
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Exclusao do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
             } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         
     }//GEN-LAST:event_botaoExcluirActionPerformed
@@ -504,10 +498,10 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
             Convenio convenio = DaoFactory.newConvenioDao().read(id);
             DaoFactory.newConvenioDao().delete(convenio);
                 JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"] [Edicao do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
             } catch (DataBaseException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastroConvenio.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
     
     }//GEN-LAST:event_botaoEditarActionPerformed
