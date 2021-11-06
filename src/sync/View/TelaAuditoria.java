@@ -177,6 +177,7 @@ public class TelaAuditoria extends javax.swing.JFrame
             }
         });
 
+        campoAudi.setEditable(false);
         campoAudi.setColumns(20);
         campoAudi.setRows(5);
         jScrollPane1.setViewportView(campoAudi);

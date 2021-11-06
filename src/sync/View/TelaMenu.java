@@ -453,7 +453,8 @@ public class TelaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoPacienteActionPerformed
 
     private void botaoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoUsuarioActionPerformed
-        // TODO add your handling code here:
+        TelaCadastroUsuario tela = new TelaCadastroUsuario();
+        tela.setVisible(true);
     }//GEN-LAST:event_botaoUsuarioActionPerformed
 
     private void botaoPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPaisActionPerformed
@@ -502,20 +503,13 @@ public class TelaMenu extends javax.swing.JFrame {
     private void atualizarPermissao() {
         // 10 - Admin sistema
         // 9 - Administrativo
-        // 8 - 
-        // 7 - Gerencia
-        // 6 - RH
-        // 5 - Alimentadores do sistema 1
-        // 4 - TI
-        // 3 - Medicos
         // 2 - Atendimento
-        // 1 - Alimentadores do sistema 2
         int perm = Sistema_Sync.get_instance().getLoggedUser().getNivelAcesso();
         if (perm < 10) {
             //
+            this.botaoAuditoria.setEnabled(false);
+            this.botaoLog.setEnabled(false);
             if (perm < 9) {
-                this.botaoAuditoria.setEnabled(false);
-                this.botaoLog.setEnabled(false);
                 
                 if (perm < 8) {
                     if (perm < 7) {

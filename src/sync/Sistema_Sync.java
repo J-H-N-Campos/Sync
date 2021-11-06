@@ -53,6 +53,7 @@ public class Sistema_Sync extends Application{
         //criar "hibernate.cfg.xml" no pacote default
         //criar "persistence.xml" no pacote META-INF
         //criar o esquema do banco de dados
+        //criar 1 usuario admin
         //...
         
 //        this.addFirstExecutionProcess(new ApplicationProcess("Criar/Criando..."){

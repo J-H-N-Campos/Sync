@@ -40,3 +40,20 @@ $valida_usuario$ LANGUAGE plpgsql;
 CREATE TRIGGER valida_usuario BEFORE INSERT OR UPDATE ON usuario
     FOR EACH ROW EXECUTE PROCEDURE valida_usuario();
 
+-- Tabela usuário
+-- não aceita nomes duplicados
+
+CREATE FUNCTION valida_usuario() RETURNS trigger AS $valida_usuario$
+    BEGIN
+        IF NEW.nome IS NULL THEN
+            RAISE EXCEPTION 'O nome não pode ser nulo';
+        END IF;
+        IF NEW.nome == nome THEN
+            RAISE EXCEPTION 'Esse nome de usuário já existe na nossa base de dados';
+        END IF;
+    RETURN NEW;
+END;
+$valida_usuario$ LANGUAGE plpgsql;
+
+CREATE TRIGGER valida_usuario BEFORE INSERT OR UPDATE ON usuario
+    FOR EACH ROW EXECUTE PROCEDURE valida_usuario();
