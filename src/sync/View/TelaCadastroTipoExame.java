@@ -45,7 +45,7 @@ public class TelaCadastroTipoExame extends javax.swing.JFrame
             {
                 List<TipoExame> listaTE = null;
                 try {
-                    listaTE = DaoFactory.newTipoExameDao().read("FROM Tipoexame As p Where p.nome like '%"+campoPesquisar.getText()+"%'");
+                    listaTE = DaoFactory.newTipoExameDao().read("FROM TipoExame As p Where p.nome like '%"+campoPesquisar.getText()+"%'");
                 } catch (DataBaseException ex) {
                     logger.error(ex.getMessage());
                 }
@@ -91,7 +91,7 @@ public class TelaCadastroTipoExame extends javax.swing.JFrame
             try {
                 sessao = NewHibernateUtil.getSessionFactory().openSession();
 
-                Query query = sessao.createQuery("from Tipoexame");
+                Query query = sessao.createQuery("from TipoExame");
                 listaTE = query.list();
 
             }catch (HibernateException hibEx)

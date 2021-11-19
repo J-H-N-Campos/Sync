@@ -10,7 +10,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class RegistroCirurgia_ {
 
 	public static volatile SingularAttribute<RegistroCirurgia, Paciente> paciente;
-	public static volatile SingularAttribute<RegistroCirurgia, TipoExame> tipo_exame;
+	public static volatile SingularAttribute<RegistroCirurgia, TipoCirurgia> tipo_cirurgia;
 	public static volatile SingularAttribute<RegistroCirurgia, Integer> id;
 	public static volatile SingularAttribute<RegistroCirurgia, Funcionario> funcionario;
 	public static volatile SingularAttribute<RegistroCirurgia, Date> dt_registro;

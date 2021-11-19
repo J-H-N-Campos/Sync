@@ -67,6 +67,10 @@ public class TelaMenu extends javax.swing.JFrame {
         botaoConvenio = new javax.swing.JButton();
         botaoPaciente = new javax.swing.JButton();
         botaoEmail = new javax.swing.JButton();
+        botaoRegistroCirurgia = new javax.swing.JButton();
+        botaoTipoCirurgia = new javax.swing.JButton();
+        botaoRegistroExame = new javax.swing.JButton();
+        botaoTipoExame = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -93,6 +97,11 @@ public class TelaMenu extends javax.swing.JFrame {
         botaoRelatorios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/reports.png"))); // NOI18N
         botaoRelatorios.setText("Relatórios");
         botaoRelatorios.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoRelatorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoRelatoriosActionPerformed(evt);
+            }
+        });
 
         botaoLogout.setBackground(new java.awt.Color(200, 200, 200));
         botaoLogout.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -289,6 +298,50 @@ public class TelaMenu extends javax.swing.JFrame {
         botaoEmail.setText("Enviar E-mail");
         botaoEmail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
+        botaoRegistroCirurgia.setBackground(new java.awt.Color(200, 200, 200));
+        botaoRegistroCirurgia.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        botaoRegistroCirurgia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/cadastro.png"))); // NOI18N
+        botaoRegistroCirurgia.setText("Registro de cirurgia");
+        botaoRegistroCirurgia.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoRegistroCirurgia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoRegistroCirurgiaActionPerformed(evt);
+            }
+        });
+
+        botaoTipoCirurgia.setBackground(new java.awt.Color(200, 200, 200));
+        botaoTipoCirurgia.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        botaoTipoCirurgia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/product.png"))); // NOI18N
+        botaoTipoCirurgia.setText("Tipo de Cirurgia");
+        botaoTipoCirurgia.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoTipoCirurgia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoTipoCirurgiaActionPerformed(evt);
+            }
+        });
+
+        botaoRegistroExame.setBackground(new java.awt.Color(200, 200, 200));
+        botaoRegistroExame.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        botaoRegistroExame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/cadastro.png"))); // NOI18N
+        botaoRegistroExame.setText("Registro de exame");
+        botaoRegistroExame.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoRegistroExame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoRegistroExameActionPerformed(evt);
+            }
+        });
+
+        botaoTipoExame.setBackground(new java.awt.Color(200, 200, 200));
+        botaoTipoExame.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        botaoTipoExame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/product.png"))); // NOI18N
+        botaoTipoExame.setText("Tipo de Exame");
+        botaoTipoExame.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        botaoTipoExame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoTipoExameActionPerformed(evt);
+            }
+        });
+
         desktop.setLayer(painel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
         desktop.setLayer(botaoUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
         desktop.setLayer(botaoFuncionario, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -298,6 +351,10 @@ public class TelaMenu extends javax.swing.JFrame {
         desktop.setLayer(botaoConvenio, javax.swing.JLayeredPane.DEFAULT_LAYER);
         desktop.setLayer(botaoPaciente, javax.swing.JLayeredPane.DEFAULT_LAYER);
         desktop.setLayer(botaoEmail, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        desktop.setLayer(botaoRegistroCirurgia, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        desktop.setLayer(botaoTipoCirurgia, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        desktop.setLayer(botaoRegistroExame, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        desktop.setLayer(botaoTipoExame, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
         desktop.setLayout(desktopLayout);
@@ -313,21 +370,33 @@ public class TelaMenu extends javax.swing.JFrame {
                             .addComponent(botaoUsuario, javax.swing.GroupLayout.Alignment.LEADING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botaoEstado)
                             .addGroup(desktopLayout.createSequentialGroup()
                                 .addComponent(botaoPais)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(botaoConvenio)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(botaoEmail))
-                            .addComponent(botaoCidade)))
+                            .addGroup(desktopLayout.createSequentialGroup()
+                                .addGroup(desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(desktopLayout.createSequentialGroup()
+                                        .addComponent(botaoEstado)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(botaoRegistroCirurgia))
+                                    .addGroup(desktopLayout.createSequentialGroup()
+                                        .addComponent(botaoCidade)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(botaoTipoCirurgia)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(botaoRegistroExame)
+                                    .addComponent(botaoTipoExame)))))
                     .addGroup(desktopLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(painel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        desktopLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {botaoCidade, botaoConvenio, botaoEmail, botaoEstado, botaoFuncionario, botaoPaciente, botaoPais, botaoUsuario});
+        desktopLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {botaoCidade, botaoConvenio, botaoEmail, botaoEstado, botaoFuncionario, botaoPaciente, botaoPais, botaoRegistroCirurgia, botaoRegistroExame, botaoTipoCirurgia, botaoTipoExame, botaoUsuario});
 
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,19 +408,25 @@ public class TelaMenu extends javax.swing.JFrame {
                     .addComponent(botaoConvenio)
                     .addComponent(botaoEmail))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botaoFuncionario)
-                    .addComponent(botaoEstado))
+                .addGroup(desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(botaoFuncionario)
+                        .addComponent(botaoEstado))
+                    .addGroup(desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(botaoRegistroCirurgia)
+                        .addComponent(botaoRegistroExame)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoCidade)
-                    .addComponent(botaoPaciente))
+                    .addComponent(botaoPaciente)
+                    .addComponent(botaoTipoCirurgia)
+                    .addComponent(botaoTipoExame))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(painel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        desktopLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {botaoCidade, botaoConvenio, botaoEmail, botaoEstado, botaoFuncionario, botaoPaciente, botaoPais, botaoUsuario});
+        desktopLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {botaoCidade, botaoConvenio, botaoEmail, botaoEstado, botaoFuncionario, botaoPaciente, botaoPais, botaoRegistroCirurgia, botaoRegistroExame, botaoTipoCirurgia, botaoTipoExame, botaoUsuario});
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -500,6 +575,31 @@ public class TelaMenu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_formWindowClosing
 
+    private void botaoRegistroExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoRegistroExameActionPerformed
+//        TelaRegistroExame  tela = new TelaRegistroExame ();
+//        tela.setVisible(true);
+    }//GEN-LAST:event_botaoRegistroExameActionPerformed
+
+    private void botaoTipoExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoTipoExameActionPerformed
+        TelaCadastroTipoExame tela = new TelaCadastroTipoExame();
+        tela.setVisible(true);
+    }//GEN-LAST:event_botaoTipoExameActionPerformed
+
+    private void botaoTipoCirurgiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoTipoCirurgiaActionPerformed
+        TelaCadastroTipoCirurgia tela = new TelaCadastroTipoCirurgia() ;
+        tela.setVisible(true);
+    }//GEN-LAST:event_botaoTipoCirurgiaActionPerformed
+
+    private void botaoRegistroCirurgiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoRegistroCirurgiaActionPerformed
+//        TelaRegistroCirurgia tela = new TelaRegistroCirurgia() ;
+//        tela.setVisible(true);
+    }//GEN-LAST:event_botaoRegistroCirurgiaActionPerformed
+
+    private void botaoRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoRelatoriosActionPerformed
+        TelaRelatorios tela = new TelaRelatorios();
+        tela.setVisible(true);
+    }//GEN-LAST:event_botaoRelatoriosActionPerformed
+
     private void atualizarPermissao() {
         // 10 - Admin sistema
         // 9 - Administrativo
@@ -548,7 +648,11 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JButton botaoLogout;
     private javax.swing.JButton botaoPaciente;
     private javax.swing.JButton botaoPais;
+    private javax.swing.JButton botaoRegistroCirurgia;
+    private javax.swing.JButton botaoRegistroExame;
     private javax.swing.JButton botaoRelatorios;
+    private javax.swing.JButton botaoTipoCirurgia;
+    private javax.swing.JButton botaoTipoExame;
     private javax.swing.JButton botaoUsuario;
     private javax.swing.JDesktopPane desktop;
     private javax.swing.JButton jButton3;

@@ -1,5 +1,6 @@
 package sync.Entidade;
 
+import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -16,7 +17,7 @@ public abstract class Paciente_ {
 	public static volatile SingularAttribute<Paciente, String> nome;
 	public static volatile SingularAttribute<Paciente, Integer> id;
 	public static volatile SingularAttribute<Paciente, String> sexo;
-	public static volatile SingularAttribute<Paciente, String> dt_nascimento;
+	public static volatile SingularAttribute<Paciente, Date> dt_nascimento;
 	public static volatile SingularAttribute<Paciente, String> email;
 
 }

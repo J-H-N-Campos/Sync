@@ -9,10 +9,10 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Funcao.class)
 public abstract class Funcao_ {
 
+	public static volatile SingularAttribute<Funcao, Integer> nivel_permissao;
 	public static volatile SingularAttribute<Funcao, String> especializacao;
 	public static volatile SingularAttribute<Funcao, Integer> id;
 	public static volatile ListAttribute<Funcao, Funcionario> funcionarios;
-	public static volatile SingularAttribute<Funcao, Integer> nivel_permicao;
 
 }
 

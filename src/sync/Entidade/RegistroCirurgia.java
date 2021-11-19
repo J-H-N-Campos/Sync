@@ -32,7 +32,7 @@ public class RegistroCirurgia {
     
     @ManyToOne
     @JoinColumn(name="id_tipo_cirurgia")
-    private TipoExame tipo_exame;
+    private TipoCirurgia tipo_cirurgia;
     
     @ManyToOne
     @JoinColumn(name="id_funcionario")
@@ -54,12 +54,12 @@ public class RegistroCirurgia {
         this.dt_registro = dt_registro;
     }
 
-    public TipoExame getTipo_exame() {
-        return tipo_exame;
+    public TipoCirurgia getTipoCirurgia() {
+        return tipo_cirurgia;
     }
 
-    public void setTipo_exame(TipoExame tipo_exame) {
-        this.tipo_exame = tipo_exame;
+    public void setTipoCirurgia(TipoCirurgia tipo_cirurgia) {
+        this.tipo_cirurgia = tipo_cirurgia;
     }
 
     public Funcionario getFuncionario() {

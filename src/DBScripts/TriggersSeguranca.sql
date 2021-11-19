@@ -1,8 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  * Author:  joao
  * Created: 08/10/2021
@@ -57,3 +52,29 @@ $valida_usuario$ LANGUAGE plpgsql;
 
 CREATE TRIGGER valida_usuario BEFORE INSERT OR UPDATE ON usuario
     FOR EACH ROW EXECUTE PROCEDURE valida_usuario();
+
+-- Tabela funcionario_funcao
+-- exclui os registros antes da exclusao do funcionario
+
+CREATE FUNCTION exclui_funcionario_funcao() RETURNS trigger AS $exclui_funcionario_funcao$
+    BEGIN
+        DELETE FROM funcionario_funcao WHERE OLD.id=funcionario_funcao.id_funcionario;
+        RETURN NULL;
+    END;
+$exclui_funcionario_funcao$ LANGUAGE plpgsql;
+
+CREATE TRIGGER exclui_funcionario_funcao BEFORE DELETE ON funcionario
+    FOR EACH ROW EXECUTE PROCEDURE exclui_funcionario_funcao();
+
+-- Tabela funcionario_funcao
+-- exclui os registros antes da exclusao da funcao
+
+CREATE FUNCTION exclui_funcao_funcionario() RETURNS trigger AS $exclui_funcao_funcionario$
+    BEGIN
+        DELETE FROM funcionario_funcao WHERE OLD.id=funcionario_funcao.id_funcao;
+        RETURN NULL;
+    END;
+$exclui_funcao_funcionario$ LANGUAGE plpgsql;
+
+CREATE TRIGGER exclui_funcao_funcionario BEFORE DELETE ON funcao
+    FOR EACH ROW EXECUTE PROCEDURE exclui_funcao_funcionario();

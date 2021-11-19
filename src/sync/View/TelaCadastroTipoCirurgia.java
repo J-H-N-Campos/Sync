@@ -77,7 +77,7 @@ public class TelaCadastroTipoCirurgia extends javax.swing.JFrame
 
                 List<TipoCirurgia> listaTC = null;
                 try {
-                    listaTC = DaoFactory.newTipoCirurgiaDao().read("FROM Tipocirurgia As tc Where tc.nome like '%" + campoPesquisar.getText() + "%'");
+                    listaTC = DaoFactory.newTipoCirurgiaDao().read("FROM TipoCirurgia As tc Where tc.nome like '%" + campoPesquisar.getText() + "%'");
                 } catch (DataBaseException ex) {
                     logger.error(ex.getMessage());
                 }
@@ -120,7 +120,7 @@ public class TelaCadastroTipoCirurgia extends javax.swing.JFrame
             public Object getValueAt(int rowIndex, int columnIndex) {
                 List<TipoCirurgia> listaTC = null;
                 try {
-                    listaTC = DaoFactory.newTipoCirurgiaDao().read("FROM Tipocirurgia As tc Where tc.nome like '%" + campoPesquisar.getText() + "%'");
+                    listaTC = DaoFactory.newTipoCirurgiaDao().read("FROM TipoCirurgia As tc Where tc.nome like '%" + campoPesquisar.getText() + "%'");
                 } catch (DataBaseException ex) {
                     logger.error(ex.getMessage());
                 }

@@ -118,7 +118,7 @@ public class TelaCadastroPaciente extends javax.swing.JFrame
             @Override
             public Class<?> getColumnClass(int columnIndex)
             {
-                Class vet[] = new Class[9];
+                Class vet[] = new Class[10];
                 vet[0] = Integer.class;
                 vet[1] = String.class;
                 vet[2] = Date.class;
