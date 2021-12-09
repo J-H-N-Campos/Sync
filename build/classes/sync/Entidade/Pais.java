@@ -1,0 +1,84 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sync.Entidade;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+/**
+ *
+ * @author joaoh
+ */
+
+@Entity
+@Table(name = "pais")
+
+public class Pais implements Serializable
+{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "nome")
+    private String nome;
+    @Column(name = "idioma")
+    private String idioma;
+
+    public Pais() {
+        
+    }
+
+    public Pais(int id, String nome, String idioma) {
+        this.id = id;
+        this.nome = nome;
+        this.idioma = idioma;
+    }
+    
+    public int getId()
+    {
+        return id;
+    }
+    
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+    public String getNome()
+    {
+        return nome;
+    }
+    
+    public void setNome(String nome)
+    {
+        this.nome = nome;
+    }
+    
+    public String getIdioma()
+    {
+        return idioma;
+    }
+    
+    public void setIdioma(String idioma)
+    {
+        this.idioma = idioma;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return nome;
+    }
+    
+    @Override
+    public boolean equals(Object pais)
+    {
+        return this.id == ((Pais)pais).id;
+    }
+}

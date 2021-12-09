@@ -5,10 +5,6 @@
  */
 package sync;
 
-import org.apache.log4j.PropertyConfigurator;
-import sync.Entidade.Funcionario;
-import sync.View.TelaMenu;
-
 /**
  *
  * @author eduar
@@ -22,8 +18,7 @@ public class Sync {
 //        PropertyConfigurator.configure("log4j.properties");
 //        TelaMenu tela = new TelaMenu();
 //        tela.setVisible(true);
-        Sistema_Sync sistema = Sistema_Sync.get_instance();
-        sistema.start();
+        Sistema_Sync.get_instance().start();
     }
     
 }
