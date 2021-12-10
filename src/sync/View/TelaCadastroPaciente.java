@@ -731,7 +731,7 @@ public class TelaCadastroPaciente extends javax.swing.JFrame
         try{
             DaoFactory.newPacienteDao().create(paciente);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/[Cadastro do paciente \"" + paciente.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/-/[Cadastro do paciente \"" + paciente.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -758,7 +758,7 @@ public class TelaCadastroPaciente extends javax.swing.JFrame
             paciente.setConvenio((Convenio) this.comboConvenio.getSelectedItem());
             DaoFactory.newPacienteDao().edit(paciente);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do paciente \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao do paciente \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -782,7 +782,7 @@ public class TelaCadastroPaciente extends javax.swing.JFrame
             paciente.setConvenio((Convenio) this.comboConvenio.getSelectedItem());
             DaoFactory.newPacienteDao().delete(paciente);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do paciente \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao do paciente \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());

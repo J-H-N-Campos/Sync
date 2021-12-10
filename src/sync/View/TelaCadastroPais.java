@@ -438,7 +438,7 @@ public class TelaCadastroPais extends javax.swing.JFrame {
             pais = DaoFactory.newPaisDao().read(id);
             DaoFactory.newPaisDao().delete(pais);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -456,7 +456,7 @@ public class TelaCadastroPais extends javax.swing.JFrame {
             pais.setIdioma(campoIdioma.getText());
             DaoFactory.newPaisDao().edit(pais);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -473,7 +473,7 @@ public class TelaCadastroPais extends javax.swing.JFrame {
         try {
             DaoFactory.newPaisDao().create(pais);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Cadastro do pais \"" + pais.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());

@@ -228,7 +228,7 @@ public class TelaCadastroTipoExame extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botaoFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {botaoCancelar, botaoFechar});
@@ -291,7 +291,7 @@ public class TelaCadastroTipoExame extends javax.swing.JFrame
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(255, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(botaoSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(botaoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -353,7 +353,7 @@ public class TelaCadastroTipoExame extends javax.swing.JFrame
                 .addComponent(campoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(botaoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -420,7 +420,7 @@ public class TelaCadastroTipoExame extends javax.swing.JFrame
         try {
             DaoFactory.newTipoExameDao().create(tipoExame);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro do tipo de exame \""+ tipoExame.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Cadastro do tipo de exame \""+ tipoExame.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -435,7 +435,7 @@ public class TelaCadastroTipoExame extends javax.swing.JFrame
             TipoExame tipoExame = DaoFactory.newTipoExameDao().read(id);
             DaoFactory.newTipoExameDao().delete(tipoExame);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do tipo de exame \""+ tipoExame.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao do tipo de exame \""+ tipoExame.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -449,7 +449,7 @@ public class TelaCadastroTipoExame extends javax.swing.JFrame
             TipoExame tipoExame = DaoFactory.newTipoExameDao().read(id);
             DaoFactory.newTipoExameDao().delete(tipoExame);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do tipo de exame \""+ tipoExame.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao do tipo de exame \""+ tipoExame.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());

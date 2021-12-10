@@ -469,7 +469,7 @@ public class TelaCadastroCidade extends javax.swing.JFrame {
             DaoFactory.newCidadeDao().create(cidade);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
             this.atualizarTabela();
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Cadastro da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
         } catch (DuplicateKeyException ex) {
@@ -489,7 +489,7 @@ public class TelaCadastroCidade extends javax.swing.JFrame {
                 cidade.setEstado((Estado) this.comboEstado.getSelectedItem());
                 DaoFactory.newCidadeDao().edit(cidade);
                 JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
                 this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -507,7 +507,7 @@ public class TelaCadastroCidade extends javax.swing.JFrame {
                 cidade.setEstado((Estado) this.comboEstado.getSelectedItem());
                 DaoFactory.newCidadeDao().delete(cidade);
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois                
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao da cidade \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois                
                 this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());

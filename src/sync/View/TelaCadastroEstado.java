@@ -412,7 +412,7 @@ public class TelaCadastroEstado extends javax.swing.JFrame {
         try {
             DaoFactory.newEstadoDao().create(estado);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Cadastro do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -434,7 +434,7 @@ public class TelaCadastroEstado extends javax.swing.JFrame {
 
             DaoFactory.newEstadoDao().edit(estado);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -449,7 +449,7 @@ public class TelaCadastroEstado extends javax.swing.JFrame {
             Estado estado = DaoFactory.newEstadoDao().read(id);
             DaoFactory.newEstadoDao().delete(estado);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao do estado \"" + estado.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());

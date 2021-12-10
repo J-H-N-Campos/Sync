@@ -282,7 +282,7 @@ public class TelaCadastroUsuario extends javax.swing.JFrame
 
         rotuloNome.setBackground(new java.awt.Color(200, 200, 200));
         rotuloNome.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
-        rotuloNome.setText("Nome: *");
+        rotuloNome.setText("Login: *");
 
         campoNome.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         campoNome.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -335,7 +335,7 @@ public class TelaCadastroUsuario extends javax.swing.JFrame
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
+                .addContainerGap(53, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(rotuloNome)
@@ -502,7 +502,7 @@ public class TelaCadastroUsuario extends javax.swing.JFrame
             DaoFactory.newUsuarioDao().create(usuario);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
             this.atualizarTabela();
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro do usuário \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Cadastro do usuário \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
         } catch (DuplicateKeyException ex) {
@@ -522,7 +522,7 @@ public class TelaCadastroUsuario extends javax.swing.JFrame
             usuario.setFuncionario((Funcionario) this.comboFuncionario.getSelectedItem());
             DaoFactory.newUsuarioDao().edit(usuario);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do usuário \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao do usuário \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -540,7 +540,7 @@ public class TelaCadastroUsuario extends javax.swing.JFrame
             usuario.setFuncionario((Funcionario) this.comboFuncionario.getSelectedItem());
             DaoFactory.newUsuarioDao().delete(usuario);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do usuário \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao do usuário \"" + this.campoNome.getText() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());

@@ -495,7 +495,7 @@ public class TelaCadastroProduto extends javax.swing.JFrame
         try {
             DaoFactory.newProdutoDao().create(produto);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro do produto \""+ produto.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Cadastro do produto \""+ produto.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -511,7 +511,7 @@ public class TelaCadastroProduto extends javax.swing.JFrame
             Produto produto = DaoFactory.newProdutoDao().read(id);
             DaoFactory.newProdutoDao().delete(produto);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do produto \""+ produto.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao do produto \""+ produto.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -526,7 +526,7 @@ public class TelaCadastroProduto extends javax.swing.JFrame
             Produto produto = DaoFactory.newProdutoDao().read(id);
             DaoFactory.newProdutoDao().delete(produto);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do produto \""+ produto.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao do produto \""+ produto.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());

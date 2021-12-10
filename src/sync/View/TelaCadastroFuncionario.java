@@ -854,7 +854,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
         try {
             DaoFactory.newFuncionarioDao().create(funcionario);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/[Cadastro do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/-/[Cadastro do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -905,7 +905,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
 
             DaoFactory.newFuncionarioDao().edit(funcionario);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/[Edicao do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/-/[Edicao do funcionario \"" + funcionario.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
 
         } catch (DataBaseException ex) {
@@ -923,7 +923,7 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
             if (func != null) {
                 DaoFactory.newFuncionarioDao().delete(func);
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/[Exclusao do funcionario \"" + func.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/-/[Exclusao do funcionario \"" + func.getNome() + "\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
             } else {
                 JOptionPane.showMessageDialog(null, "Registro não encontrado!");

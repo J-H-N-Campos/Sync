@@ -45,12 +45,12 @@ public class TelaInformacoes extends javax.swing.JFrame {
 
         JFreeChart criarGrafico1 = null;
         JFreeChart criarGrafico2 = null;
-        int nPerm = 1;
+        int nPerm = 0;
         if (Sistema_Sync.get_instance().getLoggedUser().getNivelAcesso() >= 10) {
             nPerm = 10;
         } else if (Sistema_Sync.get_instance().getLoggedUser().getNivelAcesso() >= 9) {
             nPerm = 9;
-        } else {
+        } else if (Sistema_Sync.get_instance().getLoggedUser().getNivelAcesso() >= 3) {
             nPerm = 3;
         }
         if (nPerm == 10) {
@@ -76,31 +76,92 @@ public class TelaInformacoes extends javax.swing.JFrame {
                 dataset2.addValue(listLog.size(), "Máximo", "A " + i + " dias");
             }
         } else if (nPerm == 9) {
-            criarGrafico1 = ChartFactory.createLineChart("Gráfico 1", "Hora", "Valor", dataset1, PlotOrientation.VERTICAL, false, false, false);
-            criarGrafico2 = ChartFactory.createLineChart("Gráfico 1", "Hora", "Valor", dataset2, PlotOrientation.VERTICAL, false, false, false);
-        } else {
-            criarGrafico1 = ChartFactory.createLineChart("Gráfico 1", "Hora", "Valor", dataset1, PlotOrientation.VERTICAL, false, false, false);
-            criarGrafico2 = ChartFactory.createLineChart("Gráfico 1", "Hora", "Valor", dataset2, PlotOrientation.VERTICAL, false, false, false);
-        }
+            criarGrafico1 = ChartFactory.createLineChart("Gráfico atendimentos gerais última semana", "Dias", "Quantidade", dataset1, PlotOrientation.VERTICAL, false, false, false);
+            criarGrafico2 = ChartFactory.createLineChart("Gráfico novos pacientes último mês", "Semanas", "Quantidade", dataset2, PlotOrientation.VERTICAL, false, false, false);
+            AuditoriaDao audDao = new AuditoriaDao();
 
-        try {
-            OutputStream png1 = new FileOutputStream("src/sync/Assets/grafico" + nPerm + "1.png");
-            OutputStream png2 = new FileOutputStream("src/sync/Assets/grafico" + nPerm + "2.png");
-            ChartUtilities.writeChartAsPNG(png1, criarGrafico1, 514, 360);
-            ChartUtilities.writeChartAsPNG(png2, criarGrafico2, 514, 360);
-            png1.close();
-            png2.close();
-        } catch (IOException io) {
-            logger.error(io.getMessage());
-        }
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException ex) {
-            logger.error(ex.getMessage());
-        }
+            List<String> listAudGeralE;
+            List<String> listAudGeralC;
+            List<String> listAudPaciente;
 
-        this.jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/Grafico" + Sistema_Sync.get_instance().getLoggedUser().getNivelAcesso() + "1.png")));
-        this.jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/Grafico" + Sistema_Sync.get_instance().getLoggedUser().getNivelAcesso() + "1.png")));
+            int atendimentosGerais = 0;
+
+            for (int i = 31; i >= 7; i -= 7) {
+                atendimentosGerais = 0;
+                Date data = new Date();
+                Date dataIni = new Date(data.getTime() - ((i * 86400) * 1000));
+                Date dataFim = new Date(dataIni.getTime() + ((7 * 86400) * 1000));
+                listAudGeralE = audDao.getLinhas(dataIni, dataFim, "Cadastro do registro de exame", new String());
+                listAudGeralC = audDao.getLinhas(dataIni, dataFim, "Cadastro do registro de cirurgia", new String());
+                atendimentosGerais = listAudGeralE.size() + listAudGeralC.size();
+                listAudPaciente = audDao.getLinhas(dataIni, dataFim, "Cadastro do paciente", new String());
+                dataset1.addValue(atendimentosGerais, "Máximo", "A " + 8 + " Semanas");
+                dataset2.addValue(listAudPaciente.size(), "Máximo", "A " + 8 + " Semanas");
+            }
+        } else if (nPerm == 3) {
+            try {
+                AuditoriaDao audDao = new AuditoriaDao();
+                
+                criarGrafico1 = ChartFactory.createLineChart("Gráfico atendimentos gerais última semana", "Dias", "Quantidade", dataset1, PlotOrientation.VERTICAL, false, false, false);
+                criarGrafico2 = ChartFactory.createLineChart("Gráfico atendimentos de " + Sistema_Sync.get_instance().getLoggedUser().getLogin() + " última semana", "Dias", "Quantidade", dataset2, PlotOrientation.VERTICAL, false, false, false);
+                
+                List<String> listAudGeralE;
+                List<String> listAudGeralC;
+                List<String> listAudIndividualE;
+                List<String> listAudIndividualC;
+                int atendimentosGerais = 0;
+                int atendimentosIndividuais = 0;
+
+                for (int i = 7; i >= 1; i--) {
+                    atendimentosGerais = 0;
+                    atendimentosIndividuais = 0;
+                    
+                    Date dataIni = new Date((new Date().getTime() - ((i * 86400) * 1000)));
+                    Date dataFim = new Date((new Date().getTime() + (86400 * 1000)));
+                 
+                    
+                    listAudGeralE = audDao.getLinhas(dataIni, dataFim, "Cadastro do registro de exame", new String());
+                    listAudGeralC = audDao.getLinhas(dataIni, dataFim, "Cadastro do registro de cirurgia", new String());
+                    atendimentosGerais = listAudGeralE.size() + listAudGeralC.size();
+                    
+                    String user = Sistema_Sync.get_instance().getLoggedUser().getLogin();
+                 
+                    listAudIndividualE = audDao.getLinhas(dataIni, dataFim, "Cadastro do registro de exame", user);
+                   
+                    listAudIndividualC = audDao.getLinhas(dataIni, dataFim, "Cadastro do registro de cirurgia", user);
+                    atendimentosIndividuais = listAudIndividualE.size() + listAudIndividualC.size();
+                    dataset1.addValue(atendimentosGerais, "Máximo", "A " + i + " dias");
+                    dataset2.addValue(atendimentosIndividuais, "Máximo", "A " + i + " dias");
+                    
+                }
+            } catch (Exception e) {
+                logger.error(e.getLocalizedMessage());
+            }
+
+        }
+        if (nPerm != 0) {
+            try {
+                OutputStream png1 = new FileOutputStream("src/sync/Assets/grafico" + nPerm + "1.png");
+                OutputStream png2 = new FileOutputStream("src/sync/Assets/grafico" + nPerm + "2.png");
+                ChartUtilities.writeChartAsPNG(png1, criarGrafico1, 514, 360);
+                ChartUtilities.writeChartAsPNG(png2, criarGrafico2, 514, 360);
+                png1.close();
+                png2.close();
+            } catch (IOException io) {
+                logger.error(io.getMessage());
+            }
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                logger.error(ex.getMessage());
+            }
+            try{
+            this.jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("../Assets/grafico" + nPerm + "1.png")));
+            this.jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("../Assets/grafico" + nPerm + "2.png")));
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")

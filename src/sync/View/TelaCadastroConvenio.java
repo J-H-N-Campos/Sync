@@ -466,7 +466,7 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
         try {
             DaoFactory.newConvenioDao().create(convenio);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Cadastro do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -484,7 +484,7 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
             Convenio convenio = DaoFactory.newConvenioDao().read(id);
             DaoFactory.newConvenioDao().delete(convenio);
                 JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
             } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -498,7 +498,7 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
             Convenio convenio = DaoFactory.newConvenioDao().read(id);
             DaoFactory.newConvenioDao().delete(convenio);
                 JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
+                logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao do convênio \""+ convenio.getNome() +"\" efetuado"); // Adicionar o usuario que fez a modificação depois
                 this.atualizarTabela();
             } catch (DataBaseException ex) {
             logger.error(ex.getMessage());

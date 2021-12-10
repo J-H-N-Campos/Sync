@@ -11,6 +11,7 @@ import Utils.Authenticator;
 import Utils.DataBaseConnectionManager;
 import Utils.DataBaseException;
 import Utils.DuplicateKeyException;
+import Utils.Encriptation;
 import Utils.FatalSystemException;
 
 import Utils.GenericUser;
@@ -64,9 +65,14 @@ public class Sistema_Sync extends Application {
                 List<Funcao> lf = new ArrayList();
                 lf.add(funcao);
                 funcionario.setFuncoes(lf);
+                Usuario user = new Usuario();
+                user.setFuncionario(funcionario);
+                user.setNome("admin");
+                user.setSenha(Encriptation.criptografar("admin"));
                 try {
                     DaoFactory.newFuncaoDao().create(funcao);
                     DaoFactory.newFuncionarioDao().create(funcionario);
+                    DaoFactory.newUsuarioDao().create(user);
                 } catch (DataBaseException ex) {
                     java.util.logging.Logger.getLogger(Sistema_Sync.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (DuplicateKeyException ex) {
