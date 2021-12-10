@@ -7,3 +7,4 @@ Link: https://www.oracle.com/br/java/technologies/javase/javase8-archive-downloa
 4) Para logar no sistema como administrador:
 Usuário: admin
 Senha: admin.
+5) No instalado é necessário acessar o gerenciamento de tarefas e fechar o sistema.
