@@ -30,9 +30,9 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
     public TelaCadastroConvenio()
     {
         initComponents();
-        URL url = this.getClass().getResource("/sync/Assets/reports.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/reports.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
         this.tabela.setModel(new TableModelConvenio());
     }
     

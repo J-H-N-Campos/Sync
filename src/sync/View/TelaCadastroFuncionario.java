@@ -43,9 +43,9 @@ public class TelaCadastroFuncionario extends javax.swing.JFrame {
 
     public TelaCadastroFuncionario() {
         initComponents();
-        URL url = this.getClass().getResource("/sync/Assets/juridica.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/juridica.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
 
         this.limpaCampos();
 

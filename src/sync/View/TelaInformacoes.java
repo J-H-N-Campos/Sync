@@ -36,9 +36,9 @@ public class TelaInformacoes extends javax.swing.JFrame {
     public TelaInformacoes() throws FileNotFoundException {
         initComponents();
 
-        URL url = this.getClass().getResource("/sync/Assets/combo-chart-45.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/combo-chart-45.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
 
         DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
         DefaultCategoryDataset dataset2 = new DefaultCategoryDataset();

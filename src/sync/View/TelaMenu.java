@@ -33,9 +33,9 @@ public class TelaMenu extends javax.swing.JFrame {
     public TelaMenu() {
         initComponents();
 
-        URL url = this.getClass().getResource("/sync/Assets/Menu.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/Menu.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
         atualizarPermissao();
     }
 
@@ -580,8 +580,8 @@ public class TelaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void botaoRegistroExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoRegistroExameActionPerformed
-//        TelaRegistroExame  tela = new TelaRegistroExame ();
-//        tela.setVisible(true);
+        TelaCadastroRegistroExame  tela = new TelaCadastroRegistroExame ();
+        tela.setVisible(true);
     }//GEN-LAST:event_botaoRegistroExameActionPerformed
 
     private void botaoTipoExameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoTipoExameActionPerformed
@@ -595,12 +595,12 @@ public class TelaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoTipoCirurgiaActionPerformed
 
     private void botaoRegistroCirurgiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoRegistroCirurgiaActionPerformed
-//        TelaRegistroCirurgia tela = new TelaRegistroCirurgia() ;
-//        tela.setVisible(true);
+        TelaCadastroRegistroCirurgia tela = new TelaCadastroRegistroCirurgia() ;
+        tela.setVisible(true);
     }//GEN-LAST:event_botaoRegistroCirurgiaActionPerformed
 
     private void botaoRelatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoRelatoriosActionPerformed
-        TelaRelatorios2 tela = new TelaRelatorios2();
+        TelaRelatorios tela = new TelaRelatorios();
         tela.setVisible(true);
     }//GEN-LAST:event_botaoRelatoriosActionPerformed
 
@@ -621,6 +621,7 @@ public class TelaMenu extends javax.swing.JFrame {
         if (perm < 10) {
             this.botaoAuditoria.setEnabled(false);
             this.botaoLog.setEnabled(false);
+            this.botaoUsuario.setEnabled(false);
             if (perm < 9) {
                 this.botaoRelatorios.setEnabled(false);
                 this.botaoFuncionario.setEnabled(false);
@@ -628,6 +629,8 @@ public class TelaMenu extends javax.swing.JFrame {
                     if (perm < 3) {
                         this.botaoEmail.setEnabled(false);
                         this.botaoPaciente.setEnabled(false);
+                        this.botaoRegistroCirurgia.setEnabled(false);
+                        this.botaoRegistroExame.setEnabled(false);
                     }
                 }
 

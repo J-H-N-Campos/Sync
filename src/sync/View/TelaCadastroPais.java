@@ -36,9 +36,9 @@ public class TelaCadastroPais extends javax.swing.JFrame {
 
     public TelaCadastroPais() {
         initComponents();
-        URL url = this.getClass().getResource("/sync/Assets/Pais.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/Pais.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
         this.tabela.setModel(new TableModelPais());
     }
 

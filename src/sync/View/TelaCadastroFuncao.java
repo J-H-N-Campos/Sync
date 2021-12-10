@@ -34,9 +34,9 @@ public class TelaCadastroFuncao extends javax.swing.JFrame {
 
     public TelaCadastroFuncao() {
         initComponents();
-        URL url = this.getClass().getResource("/sync/Assets/user.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/user.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
         this.tabela.setModel(new TableModelFuncao());
     }
 

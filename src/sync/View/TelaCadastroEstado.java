@@ -42,9 +42,9 @@ public class TelaCadastroEstado extends javax.swing.JFrame {
     public TelaCadastroEstado() {
         initComponents();
 
-        URL url = this.getClass().getResource("/sync/Assets/Estado.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/Estado.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
 
 //        this.tabela.setModel(new TableModelEstado());
         this.atualizarTabela();

@@ -18,8 +18,8 @@ import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
 import sync.Entidade.Funcionario;
 import sync.Entidade.Paciente;
-import sync.Entidade.RegistroExame;
-import sync.Entidade.TipoExame;
+import sync.Entidade.RegistroCirurgia;
+import sync.Entidade.TipoCirurgia;
 import sync.Persistence.DaoFactory;
 import sync.Sistema_Sync;
 
@@ -31,14 +31,15 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
 
     private List<Paciente> listaP = null;
     private List<Funcionario> listaF = null;
-    private List<TipoExame> listaTE = null;
+    private List<TipoCirurgia> listaIC = null;
     private final static Logger logger = Logger.getLogger(TelaCadastroRegistroCirurgia.class);
     
-    public TelaCadastroRegistroCirurgia(){
+    public TelaCadastroRegistroCirurgia()
+    {
         initComponents();
-        URL url = this.getClass().getResource("/sync/Assets/checked.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/checked.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
 
         this.limpaCampos();
 
@@ -55,18 +56,19 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
             this.comboPaciente.addItem(listaP.get(i));
         }
         
-//tipo de exames
+//tipo de cirurgias
         try {
-            listaTE = DaoFactory.newTipoExameDao().readAll();
+            listaIC = DaoFactory.newTipoCirurgiaDao().readAll();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
         }
         
-        this.comboTipoExame.removeAllItems();
+        this.comboTipoCirurgia.removeAllItems();
 
-        for (int i = 0; i < listaTE.size(); i++) {
-            this.comboTipoExame.addItem(listaTE.get(i));
+        for (int i = 0; i < listaIC.size(); i++) {
+            this.comboTipoCirurgia.addItem(listaIC.get(i));
         }
+        
 
 //funcionários
         try {
@@ -82,9 +84,9 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
         this.tabela.setModel(new TableModel() {
             @Override
             public int getRowCount() {
-                List<RegistroExame> lista = null;
+                List<RegistroCirurgia> lista = null;
                 try {
-                    lista = DaoFactory.newRegistroExameDao().read("from Registroexame as f Where f.id_tipo_exame LIKE '%" + campoPesquisar.getText() + "%'");
+                    lista = DaoFactory.newRegistroCirurgiaDao().read("from Registrocirurgia as f Where f.id_tipo_cirurgia LIKE '%" + campoPesquisar.getText() + "%'");
                 } catch (DataBaseException ex) {
                     logger.error(ex.getMessage());
                 }
@@ -101,7 +103,7 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
                 String vet[] = new String[5];
                 vet[0] = "Id";
                 vet[1] = "Data de registro";
-                vet[2] = "Tipo de exame";
+                vet[2] = "Tipo de cirurgia";
                 vet[3] = "Paciente";
                 vet[4] = "Funcionário";
 
@@ -127,9 +129,9 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
 
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
-                List<RegistroExame> listaF = null;
+                List<RegistroCirurgia> listaF = null;
                 try {
-                    listaF = DaoFactory.newRegistroExameDao().read("from Registroexame as f Where f.id_tipo_exame LIKE '%" + campoPesquisar.getText() + "%'");
+                    listaF = DaoFactory.newRegistroCirurgiaDao().read("from Registrocirurgia as f Where f.id_tipo_cirurgia LIKE '%" + campoPesquisar.getText() + "%'");
                 } catch (DataBaseException ex) {
                     logger.error(ex.getMessage());
                 }
@@ -143,7 +145,7 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
                     obj = listaF.get(rowIndex).getDt_registro();
                 }
                 if (columnIndex == 2) {
-                    obj = listaF.get(rowIndex).getTipo_exame();
+                    obj = listaF.get(rowIndex).getTipoCirurgia();
                 }
                 if (columnIndex == 3) {
                     obj = listaF.get(rowIndex).getPaciente();
@@ -156,18 +158,18 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
             }
 
             @Override
-            public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            public void setValueAt(Object o, int i, int i1) {
+
             }
 
             @Override
-            public void addTableModelListener(TableModelListener l) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            public void addTableModelListener(TableModelListener tl) {
+
             }
 
             @Override
-            public void removeTableModelListener(TableModelListener l) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            public void removeTableModelListener(TableModelListener tl) {
+
             }
         });
     }
@@ -175,7 +177,6 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
     private void limpaCampos() {
         this.campo_dt_registro.setDate(new Date());
     }
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -191,7 +192,7 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
         botaoSalvar = new javax.swing.JButton();
         botaoEditar = new javax.swing.JButton();
         botaoExcluir = new javax.swing.JButton();
-        comboTipoExame = new javax.swing.JComboBox<>();
+        comboTipoCirurgia = new javax.swing.JComboBox<>();
         campo_dt_registro = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
         comboFuncionario = new javax.swing.JComboBox<>();
@@ -204,7 +205,7 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
         botaoPesquisar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Registro de Exame");
+        setTitle("Registro de Cirurgia");
         setResizable(false);
 
         jInternalFrame1.setBackground(new java.awt.Color(255, 255, 255));
@@ -272,8 +273,8 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
         painelLayout.setVerticalGroup(
             painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
                 .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botaoCancelar))
@@ -286,7 +287,7 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
 
         rotuloIdioma.setBackground(new java.awt.Color(200, 200, 200));
         rotuloIdioma.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
-        rotuloIdioma.setText("Tipo de exame: *");
+        rotuloIdioma.setText("Tipo de cirurgia: *");
 
         botaoSalvar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botaoSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sync/Assets/save-30.png"))); // NOI18N
@@ -318,9 +319,9 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
             }
         });
 
-        comboTipoExame.setBackground(new java.awt.Color(240, 240, 240));
-        comboTipoExame.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        comboTipoExame.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        comboTipoCirurgia.setBackground(new java.awt.Color(240, 240, 240));
+        comboTipoCirurgia.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        comboTipoCirurgia.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
         campo_dt_registro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         campo_dt_registro.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -351,37 +352,32 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
             .addGroup(painel3Layout.createSequentialGroup()
                 .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painel3Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
                         .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(painel3Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(rotuloIdioma2)
-                                    .addComponent(rotuloIdioma)
-                                    .addComponent(jLabel8))
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel3Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(rotuloIdioma1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                            .addComponent(jLabel8)
+                            .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(rotuloIdioma2)
+                                .addComponent(rotuloIdioma)))
+                        .addGap(18, 18, 18)
                         .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(campo_dt_registro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboTipoExame, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel3Layout.createSequentialGroup()
-                        .addContainerGap(1139, Short.MAX_VALUE)
-                        .addComponent(botaoSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboTipoCirurgia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(painel3Layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(rotuloIdioma1)
                         .addGap(18, 18, 18)
+                        .addComponent(comboFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 661, Short.MAX_VALUE)
+                        .addComponent(botaoSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(botaoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(botaoExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27))
         );
 
-        painel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {campo_dt_registro, comboFuncionario, comboPaciente, comboTipoExame});
-
-        painel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel8, rotuloIdioma1});
+        painel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {campo_dt_registro, comboFuncionario, comboPaciente, comboTipoCirurgia});
 
         painel3Layout.setVerticalGroup(
             painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -390,37 +386,34 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
                 .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rotuloIdioma2)
                     .addComponent(comboPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboTipoExame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rotuloIdioma))
                 .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(15, 15, 15)
+                        .addComponent(rotuloIdioma))
+                    .addGroup(painel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboTipoCirurgia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(campo_dt_registro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel3Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(15, 15, 15)))
+                .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painel3Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(rotuloIdioma1))
+                    .addGroup(painel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(botaoExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(botaoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botaoSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20))
-                    .addGroup(painel3Layout.createSequentialGroup()
-                        .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(painel3Layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addComponent(campo_dt_registro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel3Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel8)
-                                .addGap(19, 19, 19)))
-                        .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(comboFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(rotuloIdioma1))
-                        .addContainerGap(91, Short.MAX_VALUE))))
+                            .addComponent(botaoSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
-        painel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {campo_dt_registro, comboFuncionario, comboPaciente, comboTipoExame});
-
-        painel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel8, rotuloIdioma, rotuloIdioma1, rotuloIdioma2});
+        painel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {campo_dt_registro, comboFuncionario, comboPaciente, comboTipoCirurgia});
 
         painel1.addTab("Cadastrar", painel3);
 
@@ -453,24 +446,24 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(309, 309, 309)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(259, 259, 259)
                 .addComponent(rotuloPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(campoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(botaoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(442, Short.MAX_VALUE))
+                .addContainerGap(464, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(123, 123, 123)
+                .addGap(96, 96, 96)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rotuloPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(campoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botaoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
 
         painel1.addTab("Consultar", jPanel1);
@@ -485,8 +478,8 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
-                .addComponent(painel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(painel1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(painel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -519,39 +512,39 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
 
-        RegistroExame registroExame = new RegistroExame();
-        registroExame.setDt_registro(this.campo_dt_registro.getDate());
-        registroExame.setPaciente((Paciente) this.comboPaciente.getSelectedItem());
-        registroExame.setFuncionario((Funcionario) this.comboFuncionario.getSelectedItem());
-        registroExame.setTipo_exame((TipoExame) this.comboTipoExame.getSelectedItem());
+        RegistroCirurgia registroCirurgia = new RegistroCirurgia();
+        registroCirurgia.setDt_registro(this.campo_dt_registro.getDate());
+        registroCirurgia.setPaciente((Paciente) this.comboPaciente.getSelectedItem());
+        registroCirurgia.setFuncionario((Funcionario) this.comboFuncionario.getSelectedItem());
+        registroCirurgia.setTipoCirurgia((TipoCirurgia) this.comboTipoCirurgia.getSelectedItem());
         try{
-
-            DaoFactory.newRegistroExameDao().create(registroExame);
+            
+            DaoFactory.newRegistroCirurgiaDao().create(registroCirurgia);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
             this.atualizarTabela();
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Cadastro do registro de exame \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
-        } catch (DataBaseException ex) {
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro do registro da cirurgia \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
         } catch (DuplicateKeyException ex) {
             logger.error(ex.getMessage());
         }
-
+        
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
     private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
 
-        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do registro de exame a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
+        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do registro da cirurgia a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
 
-        RegistroExame registroExame;
+        RegistroCirurgia registroCirurgia;
         try {
-            registroExame = DaoFactory.newRegistroExameDao().read(id);
-            registroExame.setDt_registro(this.campo_dt_registro.getDate());
-            registroExame.setPaciente((Paciente) this.comboPaciente.getSelectedItem());
-            registroExame.setFuncionario((Funcionario) this.comboFuncionario.getSelectedItem());
-            registroExame.setTipo_exame((TipoExame) this.comboTipoExame.getSelectedItem());
-            DaoFactory.newRegistroExameDao().edit(registroExame);
+            registroCirurgia = DaoFactory.newRegistroCirurgiaDao().read(id);
+            registroCirurgia.setDt_registro(this.campo_dt_registro.getDate());
+            registroCirurgia.setPaciente((Paciente) this.comboPaciente.getSelectedItem());
+            registroCirurgia.setFuncionario((Funcionario) this.comboFuncionario.getSelectedItem());
+            registroCirurgia.setTipoCirurgia((TipoCirurgia) this.comboTipoCirurgia.getSelectedItem());
+            DaoFactory.newRegistroCirurgiaDao().edit(registroCirurgia);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao do registro de exame \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do registro da cirurgia \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -561,16 +554,16 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
         int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do registro da cirurgia a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
 
-        RegistroExame registroExame;
+        RegistroCirurgia registroCirurgia;
         try {
-            registroExame = DaoFactory.newRegistroExameDao().read(id);
-            registroExame.setDt_registro(this.campo_dt_registro.getDate());
-            registroExame.setPaciente((Paciente) this.comboPaciente.getSelectedItem());
-            registroExame.setFuncionario((Funcionario) this.comboFuncionario.getSelectedItem());
-            registroExame.setTipo_exame((TipoExame) this.comboTipoExame.getSelectedItem());
-            DaoFactory.newRegistroExameDao().delete(registroExame);
+            registroCirurgia = DaoFactory.newRegistroCirurgiaDao().read(id);
+            registroCirurgia.setDt_registro(this.campo_dt_registro.getDate());
+            registroCirurgia.setPaciente((Paciente) this.comboPaciente.getSelectedItem());
+            registroCirurgia.setFuncionario((Funcionario) this.comboFuncionario.getSelectedItem());
+            registroCirurgia.setTipoCirurgia((TipoCirurgia) this.comboTipoCirurgia.getSelectedItem());
+            DaoFactory.newRegistroCirurgiaDao().delete(registroCirurgia);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao do registro de exame \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do registro de cirurgia \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -595,7 +588,7 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser campo_dt_registro;
     private javax.swing.JComboBox<Funcionario> comboFuncionario;
     private javax.swing.JComboBox<Paciente> comboPaciente;
-    private javax.swing.JComboBox<TipoExame> comboTipoExame;
+    private javax.swing.JComboBox<TipoCirurgia> comboTipoCirurgia;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;

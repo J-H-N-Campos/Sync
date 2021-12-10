@@ -36,9 +36,9 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
     
     public TelaCadastroRegistroExame(){
         initComponents();
-        URL url = this.getClass().getResource("/sync/Assets/checked.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/checked.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
 
         this.limpaCampos();
 

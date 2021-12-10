@@ -42,9 +42,9 @@ public class TelaCadastroPaciente extends javax.swing.JFrame
     public TelaCadastroPaciente()
     {
         initComponents();
-        URL url = this.getClass().getResource("/sync/Assets/user.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/user.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
         
         this.limpaCampos();
 

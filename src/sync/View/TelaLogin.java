@@ -34,9 +34,9 @@ public class TelaLogin extends javax.swing.JDialog
         
         this.auth = auth;
         
-        URL url = this.getClass().getResource("/sync/Assets/Login.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/Login.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
         
         botaoLogin.setContentAreaFilled(false);
         botaoLogin.setOpaque(true);

@@ -40,9 +40,9 @@ public class TelaCadastroCidade extends javax.swing.JFrame {
 
     public TelaCadastroCidade() {
         initComponents();
-        URL url = this.getClass().getResource("/sync/Assets/cidade.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/cidade.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
         this.tabela.setModel(new TableModelCidade());
 
 //        Sistema_Sync.get_instance().getLoggedUser().getNivelAcesso();

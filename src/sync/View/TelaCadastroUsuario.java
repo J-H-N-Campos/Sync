@@ -33,9 +33,9 @@ public class TelaCadastroUsuario extends javax.swing.JFrame
     public TelaCadastroUsuario()
     {
         initComponents();
-        URL url = this.getClass().getResource("/sync/Assets/user.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/user.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
         this.tabela.setModel(new TableModelUsuario());
 
 //        Sistema_Sync.get_instance().getLoggedUser().getNivelAcesso();

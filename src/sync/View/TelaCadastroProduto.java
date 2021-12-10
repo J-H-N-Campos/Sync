@@ -37,9 +37,9 @@ public class TelaCadastroProduto extends javax.swing.JFrame
     public TelaCadastroProduto()
     {
         initComponents();
-        URL url = this.getClass().getResource("/sync/Assets/product.png");
-        Image icone = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(icone);
+//        URL url = this.getClass().getResource("/sync/Assets/product.png");
+//        Image icone = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(icone);
         this.tabela.setModel(new TableModelProduto());
     }
     
