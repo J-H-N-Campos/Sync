@@ -43,21 +43,11 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/sync?createDatabaseIfNotExist=true</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/sync</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">postgres</property>
     
     <mapping class="sync.Sync"/>
-    <!--view-->
-    <mapping class="sync.View.TelaCadastroCidade"/>
-    <mapping class="sync.View.TelaCadastroConvenio"/>
-    <mapping class="sync.View.TelaCadastroEstado"/>
-    <mapping class="sync.View.TelaCadastroFuncionario"/>
-    <mapping class="sync.View.TelaCadastroPais"/>    
-    <mapping class="sync.View.TelaLogin"/>
-    <mapping class="sync.View.TelaMenu"/>
-    
-    <!--<mapping class="sync.View."/>-->
     <!--entidade-->
     <mapping class="sync.Entidade.Cidade"/>
     <mapping class="sync.Entidade.Convenio"/>
@@ -75,13 +65,6 @@ Contributor(s):
     <mapping class="sync.Entidade.TipoExame"/>
     <mapping class="sync.Entidade.Usuario"/>
     <!--<mapping class="sync.Entidade."/>-->
-    <!--table models-->
-    <mapping class="sync.TableModels.TableModelPais"/>
-    <mapping class="sync.TableModels.TableModelConvenio"/>
-    <mapping class="sync.TableModels.TableModelEstado"/>
-    <mapping class="sync.TableModels.TableModelCidade"/>
-    <mapping class="sync.TableModels.TableModelFuncionario"/>
-    <!--<mapping class="sync.TableModels."/>-->
     <!--<mapping class=""/>-->
   </session-factory>
 </hibernate-configuration>

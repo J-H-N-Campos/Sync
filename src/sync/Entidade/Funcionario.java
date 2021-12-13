@@ -216,4 +216,8 @@ public class Funcionario implements Serializable{
         this.funcoes = funcoes;
     }
     
+    public String toString(){
+        return this.getNome();
+    }
+    
 }

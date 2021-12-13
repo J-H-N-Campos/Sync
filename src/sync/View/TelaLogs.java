@@ -5,7 +5,7 @@
  */
 package sync.View;
 
-import Utils.CSVUtils;
+import sync.Utils.CSVUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,12 +22,10 @@ import sync.Persistence.LogsDao;
  */
 public class TelaLogs extends javax.swing.JFrame {
 
-    private String fileName;
     private final static Logger logger = Logger.getLogger(TelaLogs.class);
 
     public TelaLogs() {
         initComponents();
-        this.fileName = "src\\logs\\logging.log";
         attTArea();
 
         getRootPane().setDefaultButton(btnBuscar);

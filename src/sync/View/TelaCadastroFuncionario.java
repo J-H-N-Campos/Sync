@@ -5,8 +5,8 @@
  */
 package sync.View;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Image;

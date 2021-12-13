@@ -5,28 +5,18 @@
  */
 package sync.View;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
-import Utils.NewHibernateUtil;
-
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
+import sync.Utils.DuplicateKeyException;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import sync.Entidade.Estado;
 import sync.Entidade.Pais;
 import sync.Persistence.DaoFactory;
 import sync.Sistema_Sync;
-import sync.TableModels.TableModelEstado;
+import sync.Utils.DataBaseException;
 
 /**
  *

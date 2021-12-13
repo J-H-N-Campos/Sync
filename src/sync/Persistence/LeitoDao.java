@@ -5,7 +5,7 @@
  */
 package sync.Persistence;
 
-import Utils.IDAO;
+import sync.Utils.IDAO;
 import sync.Entidade.Funcionario;
 import sync.Entidade.Leito;
 

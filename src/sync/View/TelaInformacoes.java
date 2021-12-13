@@ -156,8 +156,8 @@ public class TelaInformacoes extends javax.swing.JFrame {
                 logger.error(ex.getMessage());
             }
             try{
-            this.jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("../Assets/grafico" + nPerm + "1.png")));
-            this.jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("../Assets/grafico" + nPerm + "2.png")));
+            this.jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("src/sync/Assets/grafico" + nPerm + "1.png")));
+            this.jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("src/sync/Assets/grafico" + nPerm + "2.png")));
             }catch(Exception e){
                 System.out.println(e.getMessage());
             }

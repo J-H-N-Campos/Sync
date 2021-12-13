@@ -5,7 +5,7 @@
  */
 package sync.View;
 
-import Utils.CSVUtils;
+import sync.Utils.CSVUtils;
 import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -18,12 +18,10 @@ import sync.Persistence.AuditoriaDao;
  */
 public class TelaAuditoria extends javax.swing.JFrame {
 
-    private String fileName;
     private final static Logger logger = Logger.getLogger(TelaAuditoria.class);
 
     public TelaAuditoria() {
         initComponents();
-        this.fileName = "src\\logs\\audit.log";
         attTArea();
     }
 

@@ -5,17 +5,15 @@
  */
 package sync.Persistence;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
 
-import Utils.NewHibernateUtil;
-import java.util.ArrayList;
+import sync.Utils.NewHibernateUtil;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import sync.Entidade.Funcionario;
 import sync.Entidade.RegistroCirurgia;
 
 /**

@@ -5,11 +5,8 @@
  */
 package sync.View;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
@@ -18,7 +15,7 @@ import org.apache.log4j.Logger;
 import sync.Entidade.Convenio;
 import sync.Persistence.DaoFactory;
 import sync.Sistema_Sync;
-import sync.TableModels.TableModelConvenio;
+
 
 /**
  *
@@ -33,7 +30,7 @@ public class TelaCadastroConvenio extends javax.swing.JFrame
 //        URL url = this.getClass().getResource("/sync/Assets/reports.png");
 //        Image icone = Toolkit.getDefaultToolkit().getImage(url);
 //        this.setIconImage(icone);
-        this.tabela.setModel(new TableModelConvenio());
+        this.atualizarTabela();
     }
     
     private void atualizarTabela()

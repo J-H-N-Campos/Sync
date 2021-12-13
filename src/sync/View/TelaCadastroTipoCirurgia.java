@@ -5,11 +5,8 @@
  */
 package sync.View;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
@@ -25,19 +22,16 @@ import sync.Sistema_Sync;
  *
  * @author joao
  */
-public class TelaCadastroTipoCirurgia extends javax.swing.JFrame
-{
+public class TelaCadastroTipoCirurgia extends javax.swing.JFrame {
 
     private final static Logger logger = Logger.getLogger(TelaCadastroTipoCirurgia.class);
-    
-    public TelaCadastroTipoCirurgia()
-    {
+
+    public TelaCadastroTipoCirurgia() {
         initComponents();
 
 //        URL url = this.getClass().getResource("/sync/Assets/usuario.png");
 //        Image icone = Toolkit.getDefaultToolkit().getImage(url);
 //        this.setIconImage(icone);
-
 //        this.tabela.setModel(new TableModelEstado());
         this.atualizarTabela();
 
@@ -54,7 +48,7 @@ public class TelaCadastroTipoCirurgia extends javax.swing.JFrame
             this.comboProduto.addItem(listaP.get(i));
         }
     }
-    
+
     private void limpaCampos() {
         campoNome.setText("");
         campoDuracao.setText("");
@@ -69,17 +63,25 @@ public class TelaCadastroTipoCirurgia extends javax.swing.JFrame
 
         return valido;
     }
-    
-     private void atualizarTabela() {
+
+    private void atualizarTabela() {
         this.tabela.setModel(new TableModel() {
             @Override
             public int getRowCount() {
 
                 List<TipoCirurgia> listaTC = null;
-                try {
-                    listaTC = DaoFactory.newTipoCirurgiaDao().read("FROM TipoCirurgia As tc Where tc.nome like '%" + campoPesquisar.getText() + "%'");
-                } catch (DataBaseException ex) {
-                    logger.error(ex.getMessage());
+                if (!campoPesquisar.getText().isEmpty()) {
+                    try {
+                        listaTC = DaoFactory.newTipoCirurgiaDao().read("FROM TipoCirurgia As tc Where tc.nome =" + campoPesquisar.getText() + "");
+                    } catch (DataBaseException ex) {
+                        logger.error(ex.getMessage());
+                    }
+                } else {
+                    try {
+                        listaTC = DaoFactory.newTipoCirurgiaDao().readAll();
+                    } catch (DataBaseException ex) {
+                        logger.error(ex.getMessage());
+                    }
                 }
 
                 return listaTC.size();
@@ -119,12 +121,20 @@ public class TelaCadastroTipoCirurgia extends javax.swing.JFrame
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
                 List<TipoCirurgia> listaTC = null;
-                try {
-                    listaTC = DaoFactory.newTipoCirurgiaDao().read("FROM TipoCirurgia As tc Where tc.nome like '%" + campoPesquisar.getText() + "%'");
-                } catch (DataBaseException ex) {
-                    logger.error(ex.getMessage());
-                }
+                if (!campoPesquisar.getText().isEmpty()) {
+                    try {
+                        listaTC = DaoFactory.newTipoCirurgiaDao().read("FROM TipoCirurgia As tc Where tc.nome =" + campoPesquisar.getText() + "");
+                    } catch (DataBaseException ex) {
+                        logger.error(ex.getMessage());
+                    }
+                } else {
 
+                    try {
+                        listaTC = DaoFactory.newTipoCirurgiaDao().readAll();
+                    } catch (DataBaseException ex) {
+                        logger.error(ex.getMessage());
+                    }
+                }
                 Object obj = null;
 
                 if (columnIndex == 0) {
@@ -159,7 +169,6 @@ public class TelaCadastroTipoCirurgia extends javax.swing.JFrame
             }
         });
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -458,12 +467,9 @@ public class TelaCadastroTipoCirurgia extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelarActionPerformed
-        if(painel.getSelectedIndex() == 0)
-        {
+        if (painel.getSelectedIndex() == 0) {
             limpaCampos();
-        }
-        else
-        {
+        } else {
             painel.setSelectedIndex(0);
         }
     }//GEN-LAST:event_botaoCancelarActionPerformed
@@ -486,7 +492,7 @@ public class TelaCadastroTipoCirurgia extends javax.swing.JFrame
         try {
             DaoFactory.newTipoCirurgiaDao().create(tipoCirurgia);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Cadastro do tipo de cirurgia \"" + tipoCirurgia.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/-/[Cadastro do tipo de cirurgia \"" + tipoCirurgia.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -508,7 +514,7 @@ public class TelaCadastroTipoCirurgia extends javax.swing.JFrame
 
             DaoFactory.newTipoCirurgiaDao().edit(tipoCirurgia);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao do tipo de cirurgia \"" + tipoCirurgia.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/-/[Edicao do tipo de cirurgia \"" + tipoCirurgia.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -523,7 +529,7 @@ public class TelaCadastroTipoCirurgia extends javax.swing.JFrame
             TipoCirurgia tipoCirurgia = DaoFactory.newTipoCirurgiaDao().read(id);
             DaoFactory.newTipoCirurgiaDao().delete(tipoCirurgia);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao do tipo de cirurgia \"" + tipoCirurgia.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/-/[Exclusao do tipo de cirurgia \"" + tipoCirurgia.getNome() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());

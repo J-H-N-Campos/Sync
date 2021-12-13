@@ -5,11 +5,8 @@
  */
 package sync.View;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
@@ -19,7 +16,6 @@ import sync.Entidade.Funcionario;
 import sync.Entidade.Usuario;
 import sync.Persistence.DaoFactory;
 import sync.Sistema_Sync;
-import sync.TableModels.TableModelUsuario;
 
 /**
  *
@@ -36,7 +32,7 @@ public class TelaCadastroUsuario extends javax.swing.JFrame
 //        URL url = this.getClass().getResource("/sync/Assets/user.png");
 //        Image icone = Toolkit.getDefaultToolkit().getImage(url);
 //        this.setIconImage(icone);
-        this.tabela.setModel(new TableModelUsuario());
+        this.atualizarTabela();
 
 //        Sistema_Sync.get_instance().getLoggedUser().getNivelAcesso();
         

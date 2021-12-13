@@ -43,6 +43,8 @@ public class TipoExame implements Serializable{
         this.nome = nome;
     }
     
-    
+    public String toString(){
+        return this.getNome();
+    }
     
 }

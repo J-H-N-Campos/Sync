@@ -46,7 +46,7 @@ public class AuditoriaDao {
 
         List<String> list = null;
         try {
-            list = Files.readAllLines(Paths.get("src\\logs\\audit.log"));
+            list = Files.readAllLines(Paths.get("src\\sync\\logs\\audit.log"));
 
         } catch (IOException ex) {
             logger.error(ex.getMessage());

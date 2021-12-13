@@ -5,8 +5,8 @@
  */
 package sync.View;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
@@ -28,13 +28,13 @@ import sync.Sistema_Sync;
  * @author joao
  */
 public class TelaCadastroRegistroExame extends javax.swing.JFrame {
-
+    
     private List<Paciente> listaP = null;
     private List<Funcionario> listaF = null;
     private List<TipoExame> listaTE = null;
     private final static Logger logger = Logger.getLogger(TelaCadastroRegistroExame.class);
     
-    public TelaCadastroRegistroExame(){
+    public TelaCadastroRegistroExame() {
         initComponents();
 //        URL url = this.getClass().getResource("/sync/Assets/checked.png");
 //        Image icone = Toolkit.getDefaultToolkit().getImage(url);
@@ -48,13 +48,13 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
         }
-
+        
         this.comboPaciente.removeAllItems();
-
+        
         for (int i = 0; i < listaP.size(); i++) {
             this.comboPaciente.addItem(listaP.get(i));
         }
-        
+
 //tipo de exames
         try {
             listaTE = DaoFactory.newTipoExameDao().readAll();
@@ -63,7 +63,7 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
         }
         
         this.comboTipoExame.removeAllItems();
-
+        
         for (int i = 0; i < listaTE.size(); i++) {
             this.comboTipoExame.addItem(listaTE.get(i));
         }
@@ -74,28 +74,40 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
         }
-
+        this.comboFuncionario.removeAllItems();
+        for (int i = 0; i < listaF.size(); i++) {
+            this.comboFuncionario.addItem(listaF.get(i));
+        }
+        
         this.atualizarTabela();
     }
-
+    
     private void atualizarTabela() {
         this.tabela.setModel(new TableModel() {
             @Override
             public int getRowCount() {
                 List<RegistroExame> lista = null;
-                try {
-                    lista = DaoFactory.newRegistroExameDao().read("from Registroexame as f Where f.id_tipo_exame LIKE '%" + campoPesquisar.getText() + "%'");
-                } catch (DataBaseException ex) {
-                    logger.error(ex.getMessage());
+                if (!campoPesquisar.getText().isEmpty()) {
+                    try {
+                        lista = DaoFactory.newRegistroExameDao().read("from RegistroExame as f Where f.tipo_exame =" + campoPesquisar.getText() + "");
+                    } catch (DataBaseException ex) {
+                        logger.error(ex.getMessage());
+                    }
+                } else {
+                    try {
+                        lista = DaoFactory.newRegistroExameDao().readAll();
+                    } catch (DataBaseException ex) {
+                        logger.error(ex.getMessage());
+                    }
                 }
                 return lista.size();
             }
-
+            
             @Override
             public int getColumnCount() {
                 return 5;
             }
-
+            
             @Override
             public String getColumnName(int columnIndex) {
                 String vet[] = new String[5];
@@ -104,10 +116,10 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
                 vet[2] = "Tipo de exame";
                 vet[3] = "Paciente";
                 vet[4] = "Funcionário";
-
+                
                 return vet[columnIndex];
             }
-
+            
             @Override
             public Class<?> getColumnClass(int columnIndex) {
                 Class vet[] = new Class[5];
@@ -116,26 +128,34 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
                 vet[2] = Integer.class;
                 vet[3] = Integer.class;
                 vet[4] = Integer.class;
-
+                
                 return vet[columnIndex];
             }
-
+            
             @Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return false;
             }
-
+            
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
                 List<RegistroExame> listaF = null;
-                try {
-                    listaF = DaoFactory.newRegistroExameDao().read("from Registroexame as f Where f.id_tipo_exame LIKE '%" + campoPesquisar.getText() + "%'");
-                } catch (DataBaseException ex) {
-                    logger.error(ex.getMessage());
+                if (!campoPesquisar.getText().isEmpty()) {
+                    try {
+                        listaF = DaoFactory.newRegistroExameDao().read("from RegistroExame as f Where f.tipo_exame =" + campoPesquisar.getText() + "");
+                    } catch (DataBaseException ex) {
+                        logger.error(ex.getMessage());
+                    }
+                } else {
+                    try {
+                        listaF = DaoFactory.newRegistroExameDao().readAll();
+                    } catch (DataBaseException ex) {
+                        logger.error(ex.getMessage());
+                    }
                 }
-
+                
                 Object obj = null;
-
+                
                 if (columnIndex == 0) {
                     obj = listaF.get(rowIndex).getId();
                 }
@@ -151,30 +171,31 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
                 if (columnIndex == 4) {
                     obj = listaF.get(rowIndex).getFuncionario();
                 }
-
+                
                 return obj;
             }
-
+            
             @Override
             public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
                 
             }
-
+            
             @Override
             public void addTableModelListener(TableModelListener l) {
                 
             }
-
+            
             @Override
             public void removeTableModelListener(TableModelListener l) {
                 
             }
         });
     }
-
+    
     private void limpaCampos() {
         this.campo_dt_registro.setDate(new Date());
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -428,6 +449,7 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
 
         campoPesquisar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        campoPesquisar.setText("1");
         campoPesquisar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         campoPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -518,18 +540,18 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoFecharActionPerformed
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
-
+        
         RegistroExame registroExame = new RegistroExame();
         registroExame.setDt_registro(this.campo_dt_registro.getDate());
         registroExame.setPaciente((Paciente) this.comboPaciente.getSelectedItem());
         registroExame.setFuncionario((Funcionario) this.comboFuncionario.getSelectedItem());
         registroExame.setTipo_exame((TipoExame) this.comboTipoExame.getSelectedItem());
-        try{
-
+        try {
+            
             DaoFactory.newRegistroExameDao().create(registroExame);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
             this.atualizarTabela();
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Cadastro do registro de exame \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/-/[Cadastro do registro de exame \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
         } catch (DuplicateKeyException ex) {
@@ -539,9 +561,9 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
     private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
-
+        
         int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do registro de exame a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
-
+        
         RegistroExame registroExame;
         try {
             registroExame = DaoFactory.newRegistroExameDao().read(id);
@@ -551,7 +573,7 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
             registroExame.setTipo_exame((TipoExame) this.comboTipoExame.getSelectedItem());
             DaoFactory.newRegistroExameDao().edit(registroExame);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao do registro de exame \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/-/[Edicao do registro de exame \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -560,7 +582,7 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
         int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Código do registro da cirurgia a ser ALTERADO:", "Editar", JOptionPane.PLAIN_MESSAGE));
-
+        
         RegistroExame registroExame;
         try {
             registroExame = DaoFactory.newRegistroExameDao().read(id);
@@ -570,7 +592,7 @@ public class TelaCadastroRegistroExame extends javax.swing.JFrame {
             registroExame.setTipo_exame((TipoExame) this.comboTipoExame.getSelectedItem());
             DaoFactory.newRegistroExameDao().delete(registroExame);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao do registro de exame \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin() + "]/-/[Exclusao do registro de exame \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());

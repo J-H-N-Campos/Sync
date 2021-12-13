@@ -5,9 +5,9 @@
  */
 package sync.View;
 
-import Utils.Authenticator;
-import Utils.PasswordException;
-import Utils.UserNotFoundException;
+import sync.Utils.Authenticator;
+import sync.Utils.PasswordException;
+import sync.Utils.UserNotFoundException;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;

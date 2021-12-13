@@ -5,26 +5,17 @@
  */
 package sync.View;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
-import Utils.NewHibernateUtil;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.jboss.logging.Logger;
 import sync.Entidade.Pais;
 import sync.Persistence.DaoFactory;
 import sync.Sistema_Sync;
-import sync.TableModels.TableModelPais;
 
 /**
  *
@@ -39,7 +30,7 @@ public class TelaCadastroPais extends javax.swing.JFrame {
 //        URL url = this.getClass().getResource("/sync/Assets/Pais.png");
 //        Image icone = Toolkit.getDefaultToolkit().getImage(url);
 //        this.setIconImage(icone);
-        this.tabela.setModel(new TableModelPais());
+        this.atualizarTabela();
     }
 
     private void atualizarTabela() {

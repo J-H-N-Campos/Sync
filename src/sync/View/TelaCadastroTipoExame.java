@@ -1,11 +1,8 @@
 package sync.View;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
-import Utils.NewHibernateUtil;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
+import sync.Utils.NewHibernateUtil;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
@@ -17,7 +14,7 @@ import org.hibernate.Session;
 import sync.Entidade.TipoExame;
 import sync.Persistence.DaoFactory;
 import sync.Sistema_Sync;
-import sync.TableModels.TableModelProduto;
+
 
 /**
  *
@@ -33,7 +30,7 @@ public class TelaCadastroTipoExame extends javax.swing.JFrame
 //        URL url = this.getClass().getResource("/sync/Assets/product.png");
 //        Image icone = Toolkit.getDefaultToolkit().getImage(url);
 //        this.setIconImage(icone);
-        this.tabela.setModel(new TableModelProduto());
+        this.atualizarTabela();
     }
     
     private void atualizarTabela()

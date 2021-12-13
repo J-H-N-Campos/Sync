@@ -5,22 +5,21 @@
  */
 package sync;
 
-import Utils.Application;
-import Utils.ApplicationProcess;
-import Utils.Authenticator;
-import Utils.DataBaseConnectionManager;
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
-import Utils.Encriptation;
-import Utils.FatalSystemException;
+import java.io.IOException;
+import sync.Utils.Application;
+import sync.Utils.ApplicationProcess;
+import sync.Utils.Authenticator;
+import sync.Utils.DataBaseConnectionManager;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
+import sync.Utils.Encriptation;
+import sync.Utils.FatalSystemException;
 
-import Utils.GenericUser;
+import sync.Utils.GenericUser;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import sync.Entidade.Funcao;
 import sync.Entidade.Funcionario;
 import sync.Entidade.Usuario;
@@ -73,9 +72,7 @@ public class Sistema_Sync extends Application {
                     DaoFactory.newFuncaoDao().create(funcao);
                     DaoFactory.newFuncionarioDao().create(funcionario);
                     DaoFactory.newUsuarioDao().create(user);
-                } catch (DataBaseException ex) {
-                    java.util.logging.Logger.getLogger(Sistema_Sync.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (DuplicateKeyException ex) {
+                } catch (DataBaseException | DuplicateKeyException ex) {
                     java.util.logging.Logger.getLogger(Sistema_Sync.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

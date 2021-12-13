@@ -5,7 +5,7 @@
  */
 package sync.Entidade;
 
-import Utils.GenericUser;
+import sync.Utils.GenericUser;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;

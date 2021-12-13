@@ -5,10 +5,10 @@
  */
 package sync.View;
 
-import Utils.Authenticator;
-import Utils.DataBaseException;
-import Utils.FatalSystemException;
-import Utils.GenericUser;
+import sync.Utils.Authenticator;
+import sync.Utils.DataBaseException;
+import sync.Utils.FatalSystemException;
+import sync.Utils.GenericUser;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;

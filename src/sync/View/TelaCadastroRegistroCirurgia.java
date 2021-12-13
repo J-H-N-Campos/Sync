@@ -5,11 +5,8 @@
  */
 package sync.View;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -76,6 +73,10 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
         }
+        this.comboFuncionario.removeAllItems();
+        for (int i = 0; i < listaF.size(); i++) {
+            this.comboFuncionario.addItem(listaF.get(i));
+        }
 
         this.atualizarTabela();
     }
@@ -85,11 +86,20 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
             @Override
             public int getRowCount() {
                 List<RegistroCirurgia> lista = null;
-                try {
-                    lista = DaoFactory.newRegistroCirurgiaDao().read("from Registrocirurgia as f Where f.id_tipo_cirurgia LIKE '%" + campoPesquisar.getText() + "%'");
+                if (!campoPesquisar.getText().isEmpty()) {
+                    try {
+                    lista = DaoFactory.newRegistroCirurgiaDao().read("FROM RegistroCirurgia As rc Where rc.tipo_cirurgia =" + campoPesquisar.getText()+"");
                 } catch (DataBaseException ex) {
                     logger.error(ex.getMessage());
                 }
+                }else{
+                    try {
+                    lista = DaoFactory.newRegistroCirurgiaDao().readAll();
+                } catch (DataBaseException ex) {
+                    logger.error(ex.getMessage());
+                }
+                }
+                
                 return lista.size();
             }
 
@@ -130,11 +140,20 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
                 List<RegistroCirurgia> listaF = null;
-                try {
-                    listaF = DaoFactory.newRegistroCirurgiaDao().read("from Registrocirurgia as f Where f.id_tipo_cirurgia LIKE '%" + campoPesquisar.getText() + "%'");
+                if (!campoPesquisar.getText().isEmpty()) {
+                    try {
+                    listaF = DaoFactory.newRegistroCirurgiaDao().read("from RegistroCirurgia as f Where f.tipo_cirurgia =" + campoPesquisar.getText() + "");
                 } catch (DataBaseException ex) {
                     logger.error(ex.getMessage());
                 }
+                }else{
+                    try {
+                    listaF = DaoFactory.newRegistroCirurgiaDao().readAll();
+                } catch (DataBaseException ex) {
+                    logger.error(ex.getMessage());
+                }
+                }
+                
 
                 Object obj = null;
 
@@ -522,7 +541,7 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
             DaoFactory.newRegistroCirurgiaDao().create(registroCirurgia);
             JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
             this.atualizarTabela();
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Cadastro do registro da cirurgia \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Cadastro do registro da cirurgia \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
         } catch (DuplicateKeyException ex) {
@@ -544,7 +563,7 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
             registroCirurgia.setTipoCirurgia((TipoCirurgia) this.comboTipoCirurgia.getSelectedItem());
             DaoFactory.newRegistroCirurgiaDao().edit(registroCirurgia);
             JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Edicao do registro da cirurgia \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Edicao do registro da cirurgia \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());
@@ -563,7 +582,7 @@ public class TelaCadastroRegistroCirurgia extends javax.swing.JFrame {
             registroCirurgia.setTipoCirurgia((TipoCirurgia) this.comboTipoCirurgia.getSelectedItem());
             DaoFactory.newRegistroCirurgiaDao().delete(registroCirurgia);
             JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!");
-            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/[Exclusao do registro de cirurgia \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
+            logger.info(Sistema_Sync.get_instance().getLoggedUser().getLogin()+"]/-/[Exclusao do registro de cirurgia \"" + this.campo_dt_registro.getDate() + "\" efetuado"); //adicionar o usuário que fez a alteração depois
             this.atualizarTabela();
         } catch (DataBaseException ex) {
             logger.error(ex.getMessage());

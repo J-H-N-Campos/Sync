@@ -66,5 +66,7 @@ public class TipoCirurgia implements Serializable{
         this.produto = produto;
     }
     
-    
+    public String toString(){
+        return this.getNome();
+    }
 }

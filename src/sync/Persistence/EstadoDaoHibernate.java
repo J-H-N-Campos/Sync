@@ -5,10 +5,10 @@
  */
 package sync.Persistence;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
 
-import Utils.NewHibernateUtil;
+import sync.Utils.NewHibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.HibernateException;

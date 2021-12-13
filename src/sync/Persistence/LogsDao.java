@@ -40,7 +40,7 @@ public class LogsDao {
 
         List<String> list = null;
         try {
-            list = Files.readAllLines(Paths.get("src\\logs\\logging.log"));
+            list = Files.readAllLines(Paths.get("src\\sync\\logs\\logging.log"));
 
         } catch (IOException ex) {
             logger.error(ex.getMessage());

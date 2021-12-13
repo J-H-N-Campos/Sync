@@ -5,9 +5,9 @@
  */
 package sync.View;
 
-import Utils.DataBaseException;
-import Utils.DuplicateKeyException;
-import Utils.NewHibernateUtil;
+import sync.Utils.DataBaseException;
+import sync.Utils.DuplicateKeyException;
+import sync.Utils.NewHibernateUtil;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
